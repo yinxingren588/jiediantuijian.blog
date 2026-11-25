@@ -1,0 +1,56 @@
+---
+interface Props {
+  elevated?: boolean;
+}
+
+const { elevated = false } = Astro.props;
+---
+
+<div class={`fixed right-3 sm:right-4 z-40 flex flex-col gap-2 items-end ${elevated ? 'bottom-20 sm:bottom-22' : 'bottom-5 sm:bottom-6'}`}>
+  <!-- Compact Expandable Quick Ranking Pill (keeps 1280px card grid unobstructed) -->
+  <a
+    href="/nodes"
+    class="flex items-center justify-center h-10 px-2.5 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white rounded-full shadow-lg shadow-sky-600/30 text-xs font-semibold hover:px-3.5 transition-all duration-200 group"
+    title="快速直达 2027 节点推荐榜单"
+    aria-label="快速直达 2027 节点推荐榜单"
+  >
+    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+    </svg>
+    <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-[110px] group-hover:ml-1.5 transition-all duration-200">
+      2027节点排行
+    </span>
+  </a>
+
+  <!-- Back to Top Button -->
+  <button
+    id="back-to-top"
+    type="button"
+    aria-label="返回顶部"
+    title="返回页面顶部"
+    class="opacity-0 pointer-events-none transition-all duration-300 w-10 h-10 rounded-full bg-white/95 dark:bg-slate-800/95 backdrop-blur-xs text-slate-700 dark:text-slate-200 shadow-md border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  const topBtn = document.getElementById('back-to-top');
+  if (topBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        topBtn.classList.remove('opacity-0', 'pointer-events-none');
+        topBtn.classList.add('opacity-100');
+      } else {
+        topBtn.classList.remove('opacity-100');
+        topBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }, { passive: true });
+
+    topBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+</script>

@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NODE_LIST } from '../data/nodes';
+import { FAQS_LIST } from '../data/faqs';
+
+const title = "404 - 页面未找到 | 2027节点推荐 (jiediantuijian.blog)";
+const description = "抱歉，您访问的页面不存在或已被移除。您可以返回 2027节点推荐 首页继续浏览最新精选高速节点评测与FAQ排障教程。";
+
+const topNodes = NODE_LIST.slice(0, 3);
+const hotFaqs = FAQS_LIST.slice(0, 3);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/404"
+>
+  <div class="max-w-3xl mx-auto px-4 py-16 text-center">
+    <div class="w-20 h-20 rounded-3xl bg-sky-100 dark:bg-sky-950 text-sky-600 dark:text-sky-400 font-black text-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+      404
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-3">
+      抱歉，您访问的页面不存在
+    </h1>
+    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed max-w-lg mx-auto">
+      该页面可能已被迁移、重命名，或者网址输入有误。您可以返回 2027节点推荐 首页，或直接点击下方热门节点评测与问答快速跳转。
+    </p>
+    <div class="flex flex-wrap justify-center gap-3 mb-12">
+      <a
+        href="/"
+        class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 shadow-sm transition-colors"
+      >
+        返回博客首页
+      </a>
+      <a
+        href="/nodes"
+        class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+      >
+        查看 2027节点排行榜
+      </a>
+      <a
+        href="/blog"
+        class="px-5 py-2.5 rounded-xl text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 transition-colors"
+      >
+        阅读 2027 深度博客专栏
+      </a>
+      <a
+        href="/faq"
+        class="px-5 py-2.5 rounded-xl text-xs font-bold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 hover:bg-sky-100 transition-colors"
+      >
+        查阅 24篇 FAQ 知识库
+      </a>
+    </div>
+
+    <!-- Helpful Recovery Links -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+      <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h2 class="text-sm font-bold text-slate-900 dark:text-white mb-3">🔥 2027 年度 Top 3 热门专线节点</h2>
+        <ul class="space-y-2 text-xs">
+          {topNodes.map(n => (
+            <li>
+              <a href={`/nodes/${n.slug}`} class="flex items-center justify-between text-sky-600 dark:text-sky-400 hover:underline">
+                <span>#{n.rank} {n.name}</span>
+                <span class="text-slate-400">{n.monthlyPrice}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h2 class="text-sm font-bold text-slate-900 dark:text-white mb-3">💡 高频排障与选购避坑指南</h2>
+        <ul class="space-y-2 text-xs">
+          {hotFaqs.map(f => (
+            <li>
+              <a href={`/faq/${f.slug}`} class="text-sky-600 dark:text-sky-400 hover:underline line-clamp-1 block">
+                • {f.question}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

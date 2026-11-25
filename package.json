@@ -1,0 +1,21 @@
+{
+  "name": "jiediantuijian.blog",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev --port 8899 --host",
+    "build": "astro build",
+    "serve": "node tools/serve.mjs",
+    "preview": "node tools/serve.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.6",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.13",
+    "tailwindcss": "^4.3.5"
+  }
+}

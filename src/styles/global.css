@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --accent: #0284c7;
+    --accent-dark: #0369a1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+/* Custom styling for subtle animations and glassmorphism */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* Hide scrollbars cleanly where appropriate */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Badge pulse animation */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.88; transform: scale(1.03); }
+}
+
+.badge-pulse {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Clean custom typography for long-form guides & tutorials */
+.article-prose h2 {
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: rgb(15 23 42);
+  margin-top: 2rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgb(226 232 240);
+}
+
+.dark .article-prose h2 {
+  color: rgb(255 255 255);
+  border-bottom-color: rgb(30 41 59);
+}
+
+.article-prose h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: rgb(30 41 59);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dark .article-prose h3 {
+  color: rgb(241 245 249);
+}
+
+.article-prose p {
+  line-height: 1.8;
+  margin-bottom: 0.875rem;
+}
+
+.article-prose ul,
+.article-prose ol {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+
+.article-prose li {
+  margin-bottom: 0.375rem;
+  line-height: 1.75;
+}
+
+.article-prose code:not(pre code) {
+  background: rgb(241 245 249);
+  color: rgb(3 105 161);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.85em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.dark .article-prose code:not(pre code) {
+  background: rgb(30 41 59);
+  color: rgb(56 189 248);
+}

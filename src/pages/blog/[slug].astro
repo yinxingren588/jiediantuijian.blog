@@ -1,0 +1,276 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BLOG_POSTS, type BlogPost } from '../../data/blogs';
+import { NODE_LIST } from '../../data/nodes';
+import { formatInlineRichText } from '../../utils/formatText';
+
+export function getStaticPaths() {
+  return BLOG_POSTS.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+
+const title = `${post.title} | 2027节点推荐深度专栏`;
+const description = post.excerpt;
+const keywords = `${post.tags.join(', ')}, 2027节点推荐, ${post.categoryLabel}, jiediantuijian.blog`;
+
+const matchedNodes = NODE_LIST.filter(n => post.recommendedNodeSlugs.includes(n.slug)).slice(0, 3);
+const relatedPosts = BLOG_POSTS.filter(p => post.relatedBlogSlugs.includes(p.slug) && p.slug !== post.slug);
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "alternativeHeadline": post.subtitle,
+  "description": post.excerpt,
+  "datePublished": `${post.publishDate}T08:00:00+08:00`,
+  "dateModified": `${post.updateDate}T12:00:00+08:00`,
+  "author": {
+    "@type": "Organization",
+    "name": post.author,
+    "url": "https://jiediantuijian.blog"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "2027节点推荐",
+    "url": "https://jiediantuijian.blog"
+  },
+  "mainEntityOfPage": `https://jiediantuijian.blog/blog/${post.slug}`
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath={`/blog/${post.slug}`}
+  ogType="article"
+  showProgressBar={true}
+  jsonLd={articleSchema}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center text-xs text-slate-500 mb-6 space-x-2 flex-wrap">
+      <a href="/" class="hover:text-sky-600 transition-colors">首页</a>
+      <span>/</span>
+      <a href="/blog" class="hover:text-sky-600 transition-colors">深度专栏</a>
+      <span>/</span>
+      <span class="text-sky-600 font-medium">{post.categoryLabel}</span>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold truncate max-w-[200px] sm:max-w-xs">{post.title}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="mb-8 pb-8 border-b border-slate-200 dark:border-slate-800">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+          {post.categoryLabel}
+        </span>
+        {post.featured && (
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500 text-white">
+            ★ 年度精选重磅报告
+          </span>
+        )}
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white leading-snug tracking-tight">
+        {post.title}
+      </h1>
+      <p class="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium">
+        {post.subtitle}
+      </p>
+
+      <div class="mt-5 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+        <span>作者：<strong class="text-slate-700 dark:text-slate-200">{post.author}</strong></span>
+        <span>发布：{post.publishDate}</span>
+        <span>最后校订：{post.updateDate}</span>
+        <span class="text-sky-600 dark:text-sky-400 font-semibold">{post.readingTime}</span>
+      </div>
+    </header>
+
+    <!-- Key Takeaways Card -->
+    <div class="mb-10 p-6 rounded-2xl bg-gradient-to-br from-sky-500/10 via-amber-500/5 to-indigo-500/10 border border-sky-200 dark:border-sky-800/70">
+      <h2 class="text-base font-black text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-sky-600 text-white flex items-center justify-center text-xs">📌</span>
+        <span>本篇深度研报核心提炼</span>
+      </h2>
+      <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+        {post.keyTakeaways.map(item => (
+          <li class="flex items-start gap-2">
+            <svg class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            <span set:html={formatInlineRichText(item)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Table of Contents -->
+    <nav class="mb-10 p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60">
+      <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">本文章节索引</span>
+      <ol class="space-y-1.5 text-xs sm:text-sm">
+        {post.sections.map((sec, idx) => (
+          <li>
+            <a href={`#${sec.id}`} class="text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1.5">
+              <span class="text-slate-400 font-mono">0{idx + 1}.</span>
+              <span>{sec.heading}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <!-- Article Body -->
+    <article class="article-prose max-w-none space-y-8">
+      {post.sections.map(section => (
+        <section id={section.id} class="scroll-mt-24">
+          <h2>{section.heading}</h2>
+
+          <div class="space-y-3.5 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+            {section.paragraphs.map(p => (
+              <p set:html={formatInlineRichText(p)} />
+            ))}
+          </div>
+
+          {section.bullets && (
+            <ul class="list-disc list-inside space-y-2 text-sm text-slate-700 dark:text-slate-300 my-4 bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/70 dark:border-slate-800">
+              {section.bullets.map(b => (
+                <li set:html={formatInlineRichText(b)} />
+              ))}
+            </ul>
+          )}
+
+          {section.table && (
+            <div class="my-6 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 font-bold">
+                    {section.table.headers.map(h => (
+                      <th class="py-3 px-3 sm:px-4 whitespace-nowrap">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/70">
+                  {section.table.rows.map((row, rIdx) => (
+                    <tr class={rIdx === 0 ? 'bg-amber-50/40 dark:bg-amber-950/20 font-semibold' : ''}>
+                      {row.map((cell, cIdx) => (
+                        <td class={`py-3 px-3 sm:px-4 text-slate-700 dark:text-slate-300 ${cIdx === 0 || cIdx >= row.length - 1 ? 'whitespace-nowrap' : ''}`}>
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {section.callout && (
+            <div class={`my-5 p-4 rounded-xl border ${
+              section.callout.type === 'warning'
+                ? 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/60 text-rose-900 dark:text-rose-200'
+                : section.callout.type === 'tip'
+                  ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/60 text-emerald-900 dark:text-emerald-200'
+                  : 'bg-sky-50/70 dark:bg-sky-950/30 border-sky-200 dark:border-sky-900/60 text-sky-900 dark:text-sky-200'
+            }`}>
+              <div class="font-bold text-xs sm:text-sm mb-1">{section.callout.title}</div>
+              <p class="text-xs sm:text-sm leading-relaxed !mb-0" set:html={formatInlineRichText(section.callout.text)} />
+            </div>
+          )}
+
+          {section.codeBlock && (
+            <div class="my-5 rounded-xl overflow-hidden border border-slate-800 bg-slate-950 text-slate-200 shadow-sm">
+              <div class="px-4 py-2.5 bg-slate-900 border-b border-slate-800 text-xs font-mono text-slate-300 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-sky-900/70 text-sky-300">{section.codeBlock.language}</span>
+                  <span class="truncate">{section.codeBlock.title}</span>
+                </div>
+                <button
+                  type="button"
+                  onclick="window.copyText(this.closest('.rounded-xl').querySelector('code').textContent, '配置已复制', '可直接粘贴到客户端使用', this)"
+                  class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-400 text-[11px] font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                >
+                  复制配置
+                </button>
+              </div>
+              <pre class="p-4 text-xs font-mono overflow-x-auto leading-relaxed text-emerald-400"><code>{section.codeBlock.code}</code></pre>
+            </div>
+          )}
+        </section>
+      ))}
+    </article>
+
+    <!-- Recommended Nodes Widget -->
+    {matchedNodes.length > 0 && (
+      <div class="mt-14 p-6 sm:p-8 rounded-2xl border border-sky-200 dark:border-sky-800 bg-sky-50/50 dark:bg-sky-950/20">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-black text-slate-900 dark:text-white">
+            本专题实测首选 2027 推荐节点
+          </h3>
+          <a href="/nodes" class="text-xs font-bold text-sky-600 hover:underline">全部 35 家节点 →</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {matchedNodes.map(node => (
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-black text-amber-500">#{node.rank}</span>
+                  <span class="text-xs font-bold text-sky-600">{node.rating} 分</span>
+                </div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white truncate">{node.name}</h4>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">{node.summary}</p>
+                <div class="mt-2 text-xs font-bold text-rose-600 dark:text-rose-400">{node.monthlyPrice}</div>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex gap-2">
+                <a href={`/nodes/${node.slug}`} class="flex-1 py-1.5 text-center text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  详情评测
+                </a>
+                <a href={node.affUrl} target="_blank" rel="noopener noreferrer nofollow" class="flex-1 py-1.5 text-center text-xs font-bold rounded-lg bg-sky-600 hover:bg-sky-500 text-white">
+                  直达官网
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Related Blog Articles -->
+    {relatedPosts.length > 0 && (
+      <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-black text-slate-900 dark:text-white mb-4">延伸深度阅读</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {relatedPosts.map(rp => (
+            <a
+              href={`/blog/${rp.slug}`}
+              class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-sky-500 transition-all group"
+            >
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 inline-block mb-2">
+                {rp.categoryLabel}
+              </span>
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-sky-600 line-clamp-2">
+                {rp.title}
+              </h4>
+              <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">{rp.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="mt-12 text-center">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold text-sm transition-all"
+      >
+        ← 返回 2027 深度博客专栏主页
+      </a>
+    </div>
+  </div>
+</BaseLayout>

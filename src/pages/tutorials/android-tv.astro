@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "Android安卓手机与智能电视盒子 2027科学上网配置教程 (Clash Meta) | jiediantuijian.blog";
+const description = "2027最新安卓手机与Android TV智能电视/小米盒子科学上网教程。详细演示 Clash Meta for Android 安装、一键订阅导入、分应用代理省电设置及电视大屏看 YouTube 4K 方法。";
+const keywords = "安卓翻墙教程, Clash Meta for Android教程, 电视盒子科学上网, 2027节点推荐, 小米电视YouTube教程";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/tutorials/android-tv"
+  ogType="article"
+  showProgressBar={true}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="flex items-center text-xs text-slate-500 mb-6 space-x-2">
+      <a href="/" class="hover:text-sky-600 transition-colors">首页</a>
+      <span>/</span>
+      <a href="/tutorials" class="hover:text-sky-600 transition-colors">客户端教程</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">Android 安卓与电视 TV 教程</span>
+    </nav>
+
+    <article class="article-prose max-w-none">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-6 mb-8">
+        <span class="text-xs px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-semibold">
+          2027 推荐方案 · Android 手机 / 平板 / 电视盒子
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3">
+          Clash Meta for Android 手机与智能电视 2027 配置全指南
+        </h1>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
+          最后更新：2027-03 · 支持协议：SS 2022, Trojan, VLESS-Reality, Hysteria 2
+        </p>
+      </div>
+
+      <div class="space-y-6 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        <p>
+          <strong>Clash Meta for Android（简称 CFA / CMFA）</strong> 是目前 2027 年安卓阵营生态最成熟、支持协议最齐全的客户端。无论是华为/小米/OPPO/vivo 等国产安卓手机，还是索尼/小米智能电视与安卓机顶盒，都能丝滑安装并跑满高速专线。
+        </p>
+
+        <h2>第一步：获取安装包与 2027 推荐订阅</h2>
+        <p>
+          建议从节点服务商后台的「软件下载中心」或官方开源发布页下载对应架构的 <code>.apk</code>（主流手机均选 <code>arm64-v8a</code>，老旧电视盒子可选 <code>armeabi-v7a</code>）。若还没准备订阅，可参考 <a href="/nodes" class="text-sky-600 font-semibold hover:underline">2027节点推荐大全</a>（如飞猫云、微风网络或隐形人）。
+        </p>
+
+        <h2>第二步：导入订阅配置（Profiles）</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li>打开安装好的 Clash Meta for Android，点击主界面中的<strong>「配置 (Profiles)」</strong>；</li>
+          <li>点击右上角<strong>「+」号</strong>，选择<strong>「从 URL 导入 (Import from URL)」</strong>；</li>
+          <li>在「名称」填入品牌名（如“隐形人专线”），在「URL」中粘贴复制好的 Clash 订阅链接；</li>
+          <li>建议在「自动更新 (Auto Update)」填入 <code>1440</code>（单位为分钟，即每 24 小时自动同步一次最新节点）；</li>
+          <li>点击右上角保存图标，返回配置页点击刚刚新建的配置卡片左侧圆点使其处于激活状态。</li>
+        </ol>
+
+        <h2>第三步：开启连接与分应用省电优化</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li>回到首页，点击顶部巨大的<strong>「已停止 / 点此启动」</strong>按钮，在系统弹出的 VPN 连接请求提示点击「确定」；</li>
+          <li>进入<strong>「代理 (Proxies)」</strong>页面，确认模式为<strong>「Rule（规则）」</strong>，点击右下角闪电按钮测速，选取绿色低延迟节点；</li>
+          <li><strong>高阶省电核心技巧——访问控制模式</strong>：在「设置」->「网络」->「访问控制列表 (Access Control)」中设为<strong>「仅允许已选择的应用 (Allow)」</strong>，只勾选 Chrome、YouTube、ChatGPT、Telegram、TikTok 等需要代理的海外 App。其余微信、抖音、网易云等国产应用彻底绕过 VPN 内核，能省电 40% 以上且零卡顿！</li>
+        </ol>
+
+        <h2>第四步：安卓智能电视 / 机顶盒大屏技巧</h2>
+        <p>
+          如果是安装了 YouTube TV 版或 Netflix TV 的智能电视，建议将 U 盘插入电脑拷贝 <code>cmfa.apk</code> 及一份仅含订阅地址的文本文件（或利用路由器局域网传文件）在电视上安装；遥控器选择“配置”加载并勾选香港/日本 4K 专线节点即可大屏畅享。若追求全家电视与手机都不装软件，强烈推荐阅读 <a href="/tutorials/router-openwrt" class="text-sky-600 font-semibold hover:underline">OpenWrt 软路由透明代理方案 →</a>。
+        </p>
+
+        <div class="mt-8 p-6 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 text-xs">
+          <h3 class="font-bold text-slate-900 dark:text-white text-sm !mt-0 mb-1">💡 移动弱网通勤小贴士</h3>
+          <p class="!mb-0">
+            安卓用户在地铁、高铁或电梯使用 4G/5G 移动网络时，优先选择支持 <strong>Hysteria 2</strong> 协议的节点（如微风网络、隐形人），抗弱网高丢包表现极佳；如发现手机发热，请阅读 <a href="/faq/phone-overheating-battery-drain-vpn" class="text-sky-600 font-bold hover:underline">手机开启代理发热耗电优化技巧</a>。
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

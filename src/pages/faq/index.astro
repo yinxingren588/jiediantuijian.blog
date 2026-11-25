@@ -1,0 +1,267 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { FAQS_LIST, FAQ_CATEGORIES } from '../../data/faqs';
+
+const title = "2027节点推荐常见问题解答 FAQ 知识库 - 节点选购/IPLC专线/ChatGPT/报错排查独立专栏 | jiediantuijian.blog";
+const description = "2027节点推荐官方常见问题知识库（FAQ）。收录 24 篇权威实测长文，深入解答如何防范机场跑路、IPLC/IEPL 专线原理、ChatGPT 4o/Claude 3.5/TikTok 原生解锁、Clash/小火箭配置报错、千兆测速卡顿排查及隐私防封指南。每一个问题均配有独立完整深度实操文章。";
+const keywords = "2027节点推荐, 节点常见问题, 机场跑路防范, IPLC专线原理, ChatGPT解锁节点, Clash订阅报错解决, 小火箭教程, FAQ知识库";
+
+// Schema.org FAQPage for Bing Rich Snippets
+const faqSchema = {
+  "@type": "FAQPage",
+  "mainEntity": FAQS_LIST.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/faq"
+  jsonLd={faqSchema}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center text-xs text-slate-500 mb-6 space-x-2">
+      <a href="/" class="hover:text-sky-600 transition-colors">首页</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">常见问题 FAQ 知识库</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-800 dark:text-sky-300 text-xs font-semibold mb-4 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>2027 节点推荐官方实测知识库 · 24 篇独立深度指南</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+        2027节点推荐 常见问题与深度解答（FAQ）
+      </h1>
+      <p class="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl mx-auto">
+        拒绝简单敷衍的只言片语。我们针对 Bing 搜索与用户日常遇到的高频痛点，精心打磨了 <strong>24 篇具备实操价值的权威深度专文</strong>。每一个常见问题均提供独立的完整解析页面，涵盖故障诊断、底层协议剖析、分流代码规则与避坑方案。
+      </p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="mb-10 bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <!-- Search Input -->
+      <div class="relative mb-5">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <input
+          type="text"
+          id="faq-search"
+          placeholder="搜索您遇到的问题或关键字（例如：跑路、IPLC、ChatGPT、小火箭、卡顿、BT、扣费...）"
+          class="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500 transition-all"
+        />
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="category-tabs">
+        {FAQ_CATEGORIES.map((cat, index) => (
+          <button
+            type="button"
+            data-category={cat.id}
+            class={`category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              index === 0
+                ? 'bg-sky-600 text-white shadow-xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Counter -->
+      <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
+        <span>当前收录深度解答：<strong>{FAQS_LIST.length}</strong> 篇</span>
+        <span id="visible-count" class="font-medium text-sky-600 dark:text-sky-400">已显示全部 24 个问题</span>
+      </div>
+    </div>
+
+    <!-- FAQ List Cards Container -->
+    <div class="space-y-4" id="faq-list">
+      {FAQS_LIST.map((faq, index) => (
+        <article
+          class="faq-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-sky-300 dark:hover:border-sky-700"
+          data-category={faq.category}
+          data-question={faq.question.toLowerCase()}
+          data-answer={faq.answer.toLowerCase()}
+          data-tags={faq.tags.join(' ').toLowerCase()}
+        >
+          <details class="group/details p-6" open={index === 0}>
+            <summary class="flex items-start justify-between gap-4 font-bold text-slate-900 dark:text-white text-base sm:text-lg cursor-pointer list-none select-none">
+              <span class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950 text-sky-600 dark:text-sky-400 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q{index + 1}
+                </span>
+                <span class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                  {faq.question}
+                </span>
+              </span>
+              <svg class="w-5 h-5 text-slate-400 group-open/details:rotate-180 transition-transform duration-200 shrink-0 ml-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+
+            <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 pl-0 sm:pl-10">
+              <!-- Meta Badges -->
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+                  {faq.categoryLabel}
+                </span>
+                <span class="text-[11px] text-slate-400">
+                  实测更新：{faq.updateDate}
+                </span>
+                <span class="text-[11px] text-slate-400">
+                  • 预计耗时：{faq.readingTime}
+                </span>
+              </div>
+
+              <!-- Quick Answer Summary -->
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {faq.answer}
+              </p>
+
+              <!-- Tags -->
+              <div class="mt-3 flex flex-wrap gap-1.5 items-center">
+                <span class="text-[11px] text-slate-400">核心标签：</span>
+                {faq.tags.map(tag => (
+                  <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+
+              <!-- Read Full Article Button (Direct Independent Page Link) -->
+              <div class="mt-5 pt-4 border-t border-dashed border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <span class="text-xs text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
+                  <svg class="w-4 h-4 text-amber-500 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <span>本题配有专属独立详细长文与多维步骤实操教程</span>
+                </span>
+                <a
+                  href={`/faq/${faq.slug}`}
+                  class="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 transform active:scale-95"
+                >
+                  <span>阅读本题独立完整长篇指南</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+              </div>
+            </div>
+          </details>
+        </article>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="faq-empty" class="hidden text-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 mt-4">
+      <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <p class="text-base font-bold text-slate-800 dark:text-slate-200">未找到匹配的问题解答</p>
+      <p class="text-xs text-slate-400 mt-1">请尝试更换关键字或切换分类标签查看</p>
+    </div>
+
+    <!-- Need More Help Banner -->
+    <div class="mt-16 p-8 rounded-3xl bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 text-white shadow-xl shadow-sky-600/20 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-black mb-2">
+          没找到您遇到的特定网络节点问题？
+        </h2>
+        <p class="text-xs sm:text-sm text-sky-100 max-w-xl leading-relaxed">
+          您可以直接翻阅我们的 2027 推荐节点 35 家品牌库及实测对比天梯榜，挑选晚高峰 0 丢包物理专线。
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-3 shrink-0">
+        <a
+          href="/nodes"
+          class="px-5 py-3 bg-white text-sky-600 hover:bg-sky-50 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95"
+        >
+          查看 2027 推荐节点榜
+        </a>
+        <a
+          href="/comparison"
+          class="px-5 py-3 bg-sky-700/80 hover:bg-sky-700 text-white rounded-xl font-bold text-xs border border-white/20 transition-all active:scale-95"
+        >
+          查看六维横向对比表
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript Filter -->
+  <script is:inline>
+    const searchInput = document.getElementById('faq-search');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const cards = document.querySelectorAll('.faq-card');
+    const emptyEl = document.getElementById('faq-empty');
+    const countEl = document.getElementById('visible-count');
+
+    let currentCategory = 'all';
+    let currentKeyword = '';
+
+    function filterFaqs() {
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        const q = card.getAttribute('data-question') || '';
+        const a = card.getAttribute('data-answer') || '';
+        const t = card.getAttribute('data-tags') || '';
+
+        const matchesCategory = (currentCategory === 'all') || (cat === currentCategory);
+        const matchesKeyword = !currentKeyword || q.includes(currentKeyword) || a.includes(currentKeyword) || t.includes(currentKeyword);
+
+        if (matchesCategory && matchesKeyword) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (emptyEl) {
+        if (visibleCount === 0) {
+          emptyEl.classList.remove('hidden');
+        } else {
+          emptyEl.classList.add('hidden');
+        }
+      }
+
+      if (countEl) {
+        countEl.textContent = `已筛选显示 ${visibleCount} / 24 篇解答`;
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentKeyword = e.target.value.trim().toLowerCase();
+        filterFaqs();
+      });
+    }
+
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryBtns.forEach(b => {
+          b.classList.remove('bg-sky-600', 'text-white', 'shadow-xs', 'hover:bg-sky-500');
+          b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-200', 'dark:hover:bg-slate-700');
+        });
+
+        btn.classList.add('bg-sky-600', 'text-white', 'shadow-xs', 'hover:bg-sky-500');
+        btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-200', 'dark:hover:bg-slate-700');
+
+        currentCategory = btn.getAttribute('data-category') || 'all';
+        filterFaqs();
+      });
+    });
+  </script>
+</BaseLayout>

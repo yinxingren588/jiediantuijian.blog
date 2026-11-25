@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "关于我们与评测标准 - 2027节点推荐独立评测博客 | jiediantuijian.blog";
+const description = "了解 jiediantuijian.blog 博客的建站初衷、2027节点推荐评测方法学与合规免责声明。我们坚持以客观晚高峰实测数据为基准，杜绝虚假宣传。";
+const keywords = "2027节点推荐, 关于我们, 评测标准, 机场测速方法, 免责声明, jiediantuijian.blog";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/about"
+  showProgressBar={true}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center text-xs text-slate-500 mb-6 space-x-2">
+      <a href="/" class="hover:text-sky-600 transition-colors">首页</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">关于与评测标准</span>
+    </nav>
+
+    <div class="space-y-10">
+      <!-- Section 1: Introduction -->
+      <section class="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-4">
+          关于 2027节点推荐（jiediantuijian.blog）
+        </h1>
+        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+          <strong>jiediantuijian.blog</strong> 是一家专注于 <strong>2027节点推荐</strong> 与梯子机场性能真实评测的专业技术博客。伴随着数字化办公、跨境科研及前沿 AI 技术的飞速演进，稳定、高速、安全的国际网络连接已成为全球开发者与跨境从业者的关键生产力基础设施。
+        </p>
+        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          市面上节点服务商鱼龙混杂，超售跑路、虚标带宽、频繁断流乱象屡见不鲜。我们的使命是通过长期的真实数据采样，建立透明、公正、客观的 <strong>2027节点推荐排行榜</strong>，帮助广大用户精准避坑。
+        </p>
+      </section>
+
+      <!-- Section 2: Methodology -->
+      <section class="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">
+          我们的评测标准与测试方法学
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <span class="font-bold text-sky-600 text-sm block mb-1">1. 晚高峰严苛压测</span>
+            <p class="text-slate-600 dark:text-slate-300">所有测速均以晚间 20:00 - 23:00 骨干网络拥堵时段为主要评定依据，拒绝闲时虚高数据。</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <span class="font-bold text-emerald-600 text-sm block mb-1">2. 丢包率与抖动权重</span>
+            <p class="text-slate-600 dark:text-slate-300">相较于单次突发跑分，我们更看重连续 24 小时的丢包率指标，丢包率 >3% 即扣除稳定性分值。</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <span class="font-bold text-amber-600 text-sm block mb-1">3. 原生住宅与AI解锁</span>
+            <p class="text-slate-600 dark:text-slate-300">每周动态检测对 ChatGPT 4o、Claude 3.5、TikTok、Netflix 4K 等高风控平台的解锁状态。</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <span class="font-bold text-indigo-600 text-sm block mb-1">4. 运营历史与信誉审查</span>
+            <p class="text-slate-600 dark:text-slate-300">优先推荐运营 2 年以上、具备自主 BGP 接入与企业级工单响应的实力团队，杜绝快餐式皮包机场。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Disclaimer -->
+      <section id="disclaimer" class="p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+          合规与免责声明
+        </h2>
+        <div class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed space-y-2">
+          <p>
+            1. 本站（jiediantuijian.blog）所发布的全部测评文章、技术教程及对比表格仅供计算机网络学术探讨、技术学习与流媒体协议兼容性研究之用。
+          </p>
+          <p>
+            2. 本站不提供任何翻墙服务、不架设任何海外代理服务器，所有第三方服务商链接均为评测展示。
+          </p>
+          <p>
+            3. 请所有读者严格遵守所在地法律法规与相关管理条例，文明上网，自觉维护网络信息安全与国家法律尊严，切勿使用相关技术从事任何违法违规行为。
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

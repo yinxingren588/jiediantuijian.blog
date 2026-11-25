@@ -1,0 +1,221 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingSidebar from '../components/FloatingSidebar.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  canonicalPath?: string;
+  ogType?: string;
+  showProgressBar?: boolean;
+  hasStickyBottomBar?: boolean;
+  jsonLd?: Record<string, any> | Array<Record<string, any>>;
+}
+
+const {
+  title = "2027节点推荐 - 最新精选高速稳定节点购买评测排行榜 | jiediantuijian.blog",
+  description = "【2027节点推荐】专注2027年最新稳定高速节点推荐与机场测速评测。精选优质IPLC/IEPL专线节点、4K/8K流媒体与ChatGPT解锁节点，支持Clash、Shadowrocket、Sing-box全平台一键订阅导入，为您提供专业、安全、低延迟的节点选择指南。",
+  keywords = "2027节点推荐, 节点推荐, 2027高速节点, IPLC专线节点, 机场节点购买, Clash节点推荐, 科学上网节点, 梯子推荐, 2027稳定节点, shadowrocket节点, 节点测速",
+  canonicalPath = "",
+  ogType = "website",
+  showProgressBar = false,
+  hasStickyBottomBar = false,
+  jsonLd
+} = Astro.props;
+
+const normalizedPath = canonicalPath === '/' ? '' : canonicalPath;
+const canonicalUrl = `https://jiediantuijian.blog${normalizedPath}`;
+const siteName = "2027节点推荐 - jiediantuijian.blog";
+---
+
+<!doctype html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- Anti-FOUC Theme Initialization -->
+    <script is:inline>
+      (function() {
+        try {
+          const saved = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Primary SEO Meta Tags for Bing & Google -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="author" content="jiediantuijian.blog 评测室" />
+    <meta name="publisher" content="2027节点推荐评测团队" />
+    <meta name="theme-color" content="#0284c7" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content="https://jiediantuijian.blog/favicon.svg" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content="https://jiediantuijian.blog/favicon.svg" />
+
+    <!-- JSON-LD Structured Data for Bing Rich Results -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://jiediantuijian.blog/#website",
+          "url": "https://jiediantuijian.blog",
+          "name": "2027节点推荐",
+          "alternateName": "jiediantuijian.blog",
+          "description": description,
+          "inLanguage": "zh-CN",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://jiediantuijian.blog/nodes?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://jiediantuijian.blog/#organization",
+          "name": "2027节点推荐评测中心",
+          "url": "https://jiediantuijian.blog",
+          "logo": "https://jiediantuijian.blog/favicon.svg"
+        },
+        ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])
+      ]
+    })} />
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-sky-600 selection:text-white transition-colors duration-200">
+    {showProgressBar && (
+      <div class="fixed top-0 left-0 right-0 h-1 z-50 bg-transparent pointer-events-none">
+        <div id="reading-progress" class="h-full bg-gradient-to-r from-amber-500 via-sky-500 to-blue-600 w-0 transition-all duration-75"></div>
+      </div>
+    )}
+
+    <!-- Header Navigation -->
+    <Header />
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- Floating Quick Actions & Return to Top -->
+    <FloatingSidebar elevated={hasStickyBottomBar} />
+
+    <!-- Footer -->
+    <Footer extraBottomPadding={hasStickyBottomBar} />
+
+    <!-- Global Toast Notification Container -->
+    <div
+      id="toast-notification"
+      role="status"
+      aria-live="polite"
+      class={`fixed right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 ease-out bg-slate-900 dark:bg-slate-800 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700 ${
+        hasStickyBottomBar ? 'bottom-20' : 'bottom-6'
+      }`}
+    >
+      <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div>
+        <p class="text-xs font-bold text-white" id="toast-title">复制成功</p>
+        <p class="text-[11px] text-slate-300" id="toast-body">优惠码已成功复制到剪贴板</p>
+      </div>
+    </div>
+
+    <!-- Global Client Logic for Toast, Copy Helpers & Progress -->
+    <script is:inline>
+      window.__toastTimer = null;
+
+      window.showToast = function(title, body) {
+        const toast = document.getElementById('toast-notification');
+        const titleEl = document.getElementById('toast-title');
+        const bodyEl = document.getElementById('toast-body');
+        if (!toast || !titleEl || !bodyEl) return;
+
+        titleEl.textContent = title || '操作成功';
+        bodyEl.textContent = body || '已成功复制到剪贴板';
+
+        toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        if (window.__toastTimer) clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+        }, 2500);
+      };
+
+      window.copyText = function(text, successTitle, successBody, triggerBtn) {
+        const done = () => {
+          window.showToast(successTitle || '复制成功', successBody || '已复制到剪贴板');
+          if (triggerBtn && !triggerBtn.dataset.copied) {
+            const origText = triggerBtn.textContent;
+            triggerBtn.dataset.copied = '1';
+            triggerBtn.textContent = '已复制 ✓';
+            setTimeout(() => {
+              triggerBtn.textContent = origText;
+              delete triggerBtn.dataset.copied;
+            }, 1800);
+          }
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(() => {
+            window.prompt('请手动复制内容：', text);
+          });
+        } else {
+          window.prompt('请手动复制内容：', text);
+        }
+      };
+
+      window.copyCoupon = function(code, e) {
+        if (e) e.stopPropagation();
+        const btn = e && e.currentTarget ? e.currentTarget : null;
+        window.copyText(code, '优惠码已复制', `专属码【${code}】已复制，结算时粘贴立享折扣！`, btn);
+      };
+
+      // Reading progress bar updater
+      const progressBar = document.getElementById('reading-progress');
+      if (progressBar) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = window.scrollY || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+          progressBar.style.width = pct + '%';
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>

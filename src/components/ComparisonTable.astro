@@ -1,0 +1,305 @@
+---
+import { NODE_LIST } from '../data/nodes';
+
+interface Props {
+  defaultLimit?: number;
+}
+
+const { defaultLimit } = Astro.props;
+const totalCount = NODE_LIST.length;
+const hasLimit = typeof defaultLimit === 'number' && defaultLimit < totalCount;
+---
+
+<div class="space-y-4">
+  <!-- Interactive Table Controls -->
+  <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap gap-1.5" id="table-filters">
+      <button type="button" data-filter="all" class="table-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 text-white hover:bg-sky-500 transition-colors cursor-pointer">
+        全部 {totalCount} 家品牌
+      </button>
+      <button type="button" data-filter="iplc" class="table-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+        仅看 IEPL/IPLC 物理专线
+      </button>
+      <button type="button" data-filter="budget" class="table-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+        平价低门槛（月付 ≤ ¥20）
+      </button>
+      <button type="button" data-filter="buyout" class="table-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+        支持永不过期买断包
+      </button>
+      <button type="button" data-filter="ai" class="table-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+        AI/外贸纯净原生解锁
+      </button>
+    </div>
+
+    <!-- Search & Sort -->
+    <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+      <div class="relative">
+        <input
+          type="text"
+          id="table-search"
+          placeholder="表内搜索品牌名..."
+          class="w-full sm:w-44 pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        />
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+      <select
+        id="table-sort"
+        aria-label="表格排序方式"
+        class="px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+      >
+        <option value="rank">按 2027 推荐天梯排行</option>
+        <option value="price-asc">按月费门槛（低到高）</option>
+        <option value="rating-desc">按实测评分（高到低）</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table Container -->
+  <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+    <table class="w-full text-left border-collapse text-xs" id="comparison-table" data-default-limit={hasLimit ? defaultLimit : 0}>
+      <thead>
+        <tr class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+          <th class="py-4 px-4 sm:px-6 whitespace-nowrap">节点名称 / 梯子品牌</th>
+          <th class="py-4 px-4 whitespace-nowrap">骨干线路架构</th>
+          <th class="py-4 px-4 whitespace-nowrap">实测峰值速率</th>
+          <th class="py-4 px-4 whitespace-nowrap">平均时延</th>
+          <th class="py-4 px-4 whitespace-nowrap">起步资费与年付特惠</th>
+          <th class="py-4 px-4 whitespace-nowrap">流媒体 &amp; AI 解锁</th>
+          <th class="py-4 px-4 text-center whitespace-nowrap">优惠码与直达</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60" id="comparison-tbody">
+        {NODE_LIST.map((node, index) => {
+          const isIplc = node.lineType.toUpperCase().includes('IEPL') || node.lineType.toUpperCase().includes('IPLC') || node.category === 'flagship' || node.category === 'iplc';
+          const isAi = node.streamingUnlock.some(s => s.includes('ChatGPT') || s.includes('Claude') || s.includes('TikTok')) && (node.category === 'flagship' || node.category === 'ai-business' || node.rating >= 9.3);
+          const hasBuyout = node.packages?.some(p => /买断|永不过期|永久有效/.test(`${p.available || ''} ${p.name}`));
+          const hiddenByLimit = hasLimit && index >= defaultLimit;
+          return (
+            <tr
+              class={`comparison-row hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors ${hiddenByLimit ? 'hidden-by-limit' : ''}`}
+              style={hiddenByLimit ? 'display: none;' : undefined}
+              data-rank={node.rank}
+              data-price={node.priceNumeric}
+              data-rating={node.rating}
+              data-name={node.name.toLowerCase()}
+              data-iplc={isIplc ? '1' : '0'}
+              data-ai={isAi ? '1' : '0'}
+              data-buyout={hasBuyout ? '1' : '0'}
+            >
+              <!-- Name & Rank -->
+              <td class="py-4 px-4 sm:px-6">
+                <div class="flex items-center gap-3">
+                  <span class={`w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 ${
+                    node.rank === 1 ? 'bg-amber-500 text-white' : node.rank === 2 ? 'bg-slate-400 text-white' : node.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                  }`}>
+                    {node.rank}
+                  </span>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <a href={`/nodes/${node.slug}`} class="font-bold text-slate-900 dark:text-white hover:text-sky-600 transition-colors text-sm whitespace-nowrap">
+                        {node.name}
+                      </a>
+                      <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-1.5 py-0.5 rounded">
+                        {node.rating}
+                      </span>
+                    </div>
+                    <span class="block text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">{node.badge}</span>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Line type -->
+              <td class="py-4 px-4 min-w-[160px]">
+                <span class="font-medium text-slate-700 dark:text-slate-300 block">{node.lineType}</span>
+                <span class="text-[11px] text-slate-400">{(node.protocols || []).join(', ')}</span>
+              </td>
+
+              <!-- Speed -->
+              <td class="py-4 px-4 min-w-[120px]">
+                <span class="font-bold text-slate-800 dark:text-slate-200">{node.speed}</span>
+              </td>
+
+              <!-- Latency -->
+              <td class="py-4 px-4 whitespace-nowrap">
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">{node.latency}</span>
+              </td>
+
+              <!-- Price & Annual Discount -->
+              <td class="py-4 px-4 min-w-[180px]">
+                <span class="font-black text-rose-600 dark:text-rose-400">{node.monthlyPrice}</span>
+                <span class="text-[11px] text-slate-400 block">{node.traffic}</span>
+                {node.annualDiscount && (
+                  <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5">{node.annualDiscount}</span>
+                )}
+              </td>
+
+              <!-- Highlights & Unlock -->
+              <td class="py-4 px-4 max-w-xs min-w-[180px]">
+                <div class="flex flex-wrap gap-1 mb-1">
+                  {node.streamingUnlock.slice(0, 3).map((item) => (
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-[10px]">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <p class="text-[11px] text-slate-500 truncate">{node.recommendedFor}</p>
+              </td>
+
+              <!-- Actions -->
+              <td class="py-4 px-4 text-center whitespace-nowrap">
+                <div class="flex flex-col gap-1.5 items-center justify-center">
+                  {node.couponCode ? (
+                    <button
+                      type="button"
+                      onclick={`copyCoupon('${node.couponCode}', event)`}
+                      class="text-[10px] px-2 py-0.5 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-semibold rounded hover:bg-amber-200 border border-amber-300 dark:border-amber-700/60 whitespace-nowrap cursor-pointer"
+                      title="点击复制优惠码"
+                    >
+                      券: {node.couponCode}
+                    </button>
+                  ) : (
+                    <span class="text-[10px] text-slate-400 truncate max-w-[100px]" title={node.couponText}>
+                      官方直惠通道
+                    </span>
+                  )}
+                  <a
+                    href={node.affUrl}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-semibold text-xs shadow-xs whitespace-nowrap"
+                  >
+                    前往官网
+                  </a>
+                </div>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+    <div id="table-empty" class="hidden py-12 text-center text-xs text-slate-500">
+      没有符合当前筛选条件的服务商，请切换筛选条件查看。
+    </div>
+  </div>
+
+  {hasLimit && (
+    <div id="table-expand-bar" class="flex flex-wrap items-center justify-center gap-3 pt-2">
+      <button
+        type="button"
+        id="table-expand-btn"
+        class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:border-sky-500 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 shadow-xs transition-all cursor-pointer"
+      >
+        展开全部 {totalCount} 家完整横评对比（剩余 {totalCount - defaultLimit} 家） ↓
+      </button>
+      <a
+        href="/comparison"
+        class="px-5 py-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-xs font-bold text-sky-700 dark:text-sky-300 hover:bg-sky-100 transition-colors"
+      >
+        前往独立横评专页 →
+      </a>
+    </div>
+  )}
+</div>
+
+<script is:inline>
+  (function() {
+    const table = document.getElementById('comparison-table');
+    const tbody = document.getElementById('comparison-tbody');
+    const searchEl = document.getElementById('table-search');
+    const sortEl = document.getElementById('table-sort');
+    const filterBtns = document.querySelectorAll('.table-filter-btn');
+    const emptyEl = document.getElementById('table-empty');
+    const expandBar = document.getElementById('table-expand-bar');
+    const expandBtn = document.getElementById('table-expand-btn');
+    if (!tbody || !table) return;
+
+    const defaultLimit = parseInt(table.dataset.defaultLimit || '0', 10);
+    const rows = Array.from(tbody.querySelectorAll('.comparison-row'));
+    let activeFilter = 'all';
+    let keyword = '';
+    let isExpanded = defaultLimit === 0;
+
+    function updateTable() {
+      const sortMode = sortEl ? sortEl.value : 'rank';
+      const isDefaultState = activeFilter === 'all' && !keyword && sortMode === 'rank';
+
+      const sortedRows = [...rows].sort((a, b) => {
+        if (sortMode === 'price-asc') {
+          return parseFloat(a.dataset.price || '999') - parseFloat(b.dataset.price || '999');
+        }
+        if (sortMode === 'rating-desc') {
+          return parseFloat(b.dataset.rating || '0') - parseFloat(a.dataset.rating || '0');
+        }
+        return parseInt(a.dataset.rank || '99', 10) - parseInt(b.dataset.rank || '99', 10);
+      });
+
+      let visibleCount = 0;
+      sortedRows.forEach((row, idx) => {
+        tbody.appendChild(row);
+        const name = row.dataset.name || '';
+        const price = parseFloat(row.dataset.price || '999');
+        const isIplc = row.dataset.iplc === '1';
+        const isAi = row.dataset.ai === '1';
+        const hasBuyout = row.dataset.buyout === '1';
+
+        let matchesFilter = true;
+        if (activeFilter === 'iplc') matchesFilter = isIplc;
+        else if (activeFilter === 'budget') matchesFilter = price <= 20;
+        else if (activeFilter === 'buyout') matchesFilter = hasBuyout;
+        else if (activeFilter === 'ai') matchesFilter = isAi;
+
+        const matchesSearch = !keyword || name.includes(keyword);
+        const withinLimit = !defaultLimit || isExpanded || !isDefaultState || idx < defaultLimit;
+
+        if (matchesFilter && matchesSearch && withinLimit) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      if (expandBar) {
+        expandBar.style.display = (!defaultLimit || isExpanded || !isDefaultState) ? 'none' : '';
+      }
+
+      if (emptyEl) {
+        emptyEl.classList.toggle('hidden', visibleCount > 0);
+      }
+    }
+
+    if (expandBtn) {
+      expandBtn.addEventListener('click', () => {
+        isExpanded = true;
+        updateTable();
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-sky-600', 'text-white', 'hover:bg-sky-500');
+          b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-200', 'dark:hover:bg-slate-700');
+        });
+        btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-200', 'dark:hover:bg-slate-700');
+        btn.classList.add('bg-sky-600', 'text-white', 'hover:bg-sky-500');
+        activeFilter = btn.dataset.filter || 'all';
+        updateTable();
+      });
+    });
+
+    if (searchEl) {
+      searchEl.addEventListener('input', (e) => {
+        keyword = e.target.value.trim().toLowerCase();
+        updateTable();
+      });
+    }
+
+    if (sortEl) {
+      sortEl.addEventListener('change', updateTable);
+    }
+  })();
+</script>

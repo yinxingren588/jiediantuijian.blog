@@ -1,0 +1,259 @@
+---
+import { NODE_LIST } from '../data/nodes';
+
+const compactNodes = NODE_LIST.map(n => ({
+  slug: n.slug,
+  name: n.name,
+  rank: n.rank,
+  rating: n.rating,
+  category: n.category,
+  categoryLabel: n.categoryLabel,
+  priceNumeric: n.priceNumeric,
+  monthlyPrice: n.monthlyPrice,
+  traffic: n.traffic,
+  annualDiscount: n.annualDiscount || '',
+  hasBuyout: Boolean(n.packages?.some(p => /买断|永不过期|永久有效/.test(`${p.available || ''} ${p.name}`))),
+  pkgCount: n.packages?.length || 0,
+  latency: n.latency,
+  lineType: n.lineType,
+  badge: n.badge,
+  couponCode: n.couponCode,
+  affUrl: n.affUrl,
+  streamingUnlock: n.streamingUnlock,
+  ispPerformance: n.ispPerformance,
+  protocols: n.protocols,
+}));
+---
+
+<section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="node-matcher">
+  <div class="rounded-3xl border border-sky-200/80 dark:border-sky-900/60 bg-gradient-to-br from-white via-sky-50/40 to-indigo-50/40 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950/30 p-6 sm:p-8 shadow-sm">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div>
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300 text-[11px] font-bold mb-2">
+          <span>Interactive 2027 Node Finder</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
+          不知道选哪家？10秒智能匹配最适合您的 2027 节点方案
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          结合 267 档真实流量包、年付特惠与永久买断数据，实时从 35 家品牌中筛选最契合的前 3 名
+        </p>
+      </div>
+    </div>
+
+    <!-- Selector Form -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <!-- 1. ISP -->
+      <div class="bg-white dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700">
+        <label for="matcher-isp" class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-2">
+          1. 您使用的宽带 / 移动网络
+        </label>
+        <select
+          id="matcher-isp"
+          class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+        >
+          <option value="all">三网通用 / 多网络切换</option>
+          <option value="telecom">中国电信（晚高峰抗 163 拥堵）</option>
+          <option value="unicom">中国联通（追求极致性价比与高速）</option>
+          <option value="mobile">中国移动 / 5G 热点（抗 UDP QoS）</option>
+        </select>
+      </div>
+
+      <!-- 2. Use Case -->
+      <div class="bg-white dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700">
+        <label for="matcher-use" class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-2">
+          2. 您的核心使用场景
+        </label>
+        <select
+          id="matcher-use"
+          class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+        >
+          <option value="ai">ChatGPT 4o / Claude 3.5 AI 生产力</option>
+          <option value="streaming">Netflix 4K / YouTube 8K 流媒体追剧</option>
+          <option value="business">TikTok 运营 / 外贸跨境电商</option>
+          <option value="buyout">低频备灾 / 永不过期不限时买断包</option>
+          <option value="gaming">外服网游 / Steam / Apex 低延迟</option>
+          <option value="daily">查资料 / 年付低月均折算轻量上网</option>
+        </select>
+      </div>
+
+      <!-- 3. Budget -->
+      <div class="bg-white dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700">
+        <label for="matcher-budget" class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-2">
+          3. 预期预算范围
+        </label>
+        <select
+          id="matcher-budget"
+          class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+        >
+          <option value="any">不限预算 · 追求顶级专线稳定</option>
+          <option value="mid">主流区间（月付 ¥18 - ¥25 / 月）</option>
+          <option value="low">极致省钱（月付 ≤¥19 / 年付折合 ¥6.5~8/月）</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Live Recommended Top 3 Output -->
+    <div id="matcher-results" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {compactNodes.slice(0, 3).map((n, idx) => (
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between shadow-xs">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class={`text-[11px] font-bold px-2 py-0.5 rounded-full ${idx === 0 ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300' : 'bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300'}`}>
+                {idx === 0 ? '🏆 最佳匹配方案' : `✨ 备选优选 #${idx + 1}`}
+              </span>
+              <span class="text-xs font-black text-sky-600 dark:text-sky-400">{n.rating} 分</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">{n.name}</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">{n.lineType}</p>
+            <div class="mt-2.5 text-sm font-black text-rose-600 dark:text-rose-400">
+              {n.monthlyPrice} <span class="text-[11px] font-normal text-slate-400">({n.traffic})</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
+            <a href={`/nodes/${n.slug}`} class="flex-1 py-2 text-center text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+              详情评测
+            </a>
+            <a href={n.affUrl} target="_blank" rel="noopener noreferrer nofollow" class="flex-1 py-2 text-center text-xs font-bold rounded-xl bg-sky-600 hover:bg-sky-500 text-white shadow-xs">
+              直达官网
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ compactNodes }}>
+  (function() {
+    const ispEl = document.getElementById('matcher-isp');
+    const useEl = document.getElementById('matcher-use');
+    const budgetEl = document.getElementById('matcher-budget');
+    const outEl = document.getElementById('matcher-results');
+    if (!ispEl || !useEl || !budgetEl || !outEl) return;
+
+    function scoreNode(n, isp, use, budget) {
+      let score = n.rating * 10;
+      const lineUpper = (n.lineType || '').toUpperCase();
+      const badgeStr = n.badge || '';
+      const unlocks = (n.streamingUnlock || []).join(' ').toLowerCase();
+      const protos = (n.protocols || []).join(' ').toLowerCase();
+
+      if (budget === 'low') {
+        if (n.priceNumeric <= 16) score += 35;
+        else if (n.priceNumeric <= 19.2) score += 20;
+        else if (n.annualDiscount) score += 8;
+        else score -= 30;
+      } else if (budget === 'mid') {
+        if (n.priceNumeric >= 16 && n.priceNumeric <= 25) score += 20;
+        else if (n.priceNumeric < 16) score += 10;
+        else score -= 15;
+      } else {
+        if (n.category === 'flagship') score += 20;
+      }
+
+      if (isp === 'telecom') {
+        if (lineUpper.includes('IEPL') || lineUpper.includes('IPLC') || lineUpper.includes('BGP')) score += 20;
+        if ((n.ispPerformance?.telecom || '').includes('99')) score += 12;
+      } else if (isp === 'mobile') {
+        if (protos.includes('hysteria') || lineUpper.includes('IPLC') || lineUpper.includes('IEPL')) score += 18;
+      } else if (isp === 'unicom') {
+        if ((n.ispPerformance?.unicom || '').includes('99') || (n.ispPerformance?.unicom || '').includes('98')) score += 10;
+      }
+
+      if (use === 'ai') {
+        if (unlocks.includes('claude') || unlocks.includes('chatgpt')) score += 18;
+        if (n.category === 'ai-business' || n.category === 'flagship') score += 12;
+      } else if (use === 'streaming') {
+        if (unlocks.includes('netflix') && unlocks.includes('disney')) score += 15;
+        if (badgeStr.includes('8K') || badgeStr.includes('4K')) score += 10;
+      } else if (use === 'business') {
+        if (unlocks.includes('tiktok') || n.category === 'ai-business' || badgeStr.includes('外贸')) score += 22;
+      } else if (use === 'buyout') {
+        if (n.hasBuyout) score += 35;
+        else score -= 40;
+      } else if (use === 'gaming') {
+        if (n.category === 'gaming' || lineUpper.includes('IEPL') || lineUpper.includes('IPLC')) score += 22;
+      } else if (use === 'daily') {
+        if (n.annualDiscount || n.priceNumeric <= 19) score += 18;
+      }
+
+      return score;
+    }
+
+    function buildReason(n, isp, use) {
+      const parts = [];
+      if (use === 'buyout' && n.hasBuyout) {
+        parts.push('提供永不过期一次性买断流量包');
+      } else if ((n.lineType || '').toUpperCase().includes('IEPL') || (n.lineType || '').toUpperCase().includes('IPLC')) {
+        parts.push('纯物理内网专线不过公网，晚高峰极稳');
+      } else {
+        parts.push('多线智能BGP调度，日常流畅高性价比');
+      }
+      if (n.annualDiscount) parts.push(`年付特惠 ${n.annualDiscount.split(' ')[0]}`);
+      if (use === 'ai' || use === 'business') parts.push('原生IP解锁ChatGPT/Claude/TikTok');
+      else if (use === 'gaming') parts.push(`${n.latency} 低抖动游戏联机友好`);
+      if (isp === 'telecom' && n.ispPerformance?.telecom) parts.push(`电信适配 ${n.ispPerformance.telecom}`);
+      return parts.join(' · ');
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, s => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[s]));
+    }
+
+    function renderMatches() {
+      const isp = ispEl.value;
+      const use = useEl.value;
+      const budget = budgetEl.value;
+
+      const ranked = compactNodes
+        .map(n => ({ node: n, score: scoreNode(n, isp, use, budget) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
+
+      outEl.innerHTML = ranked.map((item, idx) => {
+        const n = item.node;
+        const badgeHtml = idx === 0
+          ? '<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">🏆 最佳推荐方案</span>'
+          : `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">✨ 高匹配度 #${idx + 1}</span>`;
+        const couponBtn = n.couponCode
+          ? `<button type="button" onclick="copyCoupon('${escapeHtml(n.couponCode)}', event)" class="text-[10px] px-2 py-0.5 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-mono font-bold rounded border border-amber-300 dark:border-amber-800 hover:bg-amber-200 whitespace-nowrap cursor-pointer">券:${escapeHtml(n.couponCode)}</button>`
+          : '';
+        return `
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border ${idx === 0 ? 'border-amber-400/80 dark:border-amber-500/60 shadow-md shadow-amber-500/5' : 'border-slate-200 dark:border-slate-800 shadow-xs'} flex flex-col justify-between transition-all">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                ${badgeHtml}
+                <span class="text-xs font-black text-sky-600 dark:text-sky-400">${escapeHtml(n.rating)} 分</span>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">${escapeHtml(n.name)}</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">${escapeHtml(buildReason(n, isp, use))}</p>
+              <div class="mt-3 flex items-center justify-between gap-2 flex-wrap">
+                <div>
+                  <span class="text-sm font-black text-rose-600 dark:text-rose-400">${escapeHtml(n.monthlyPrice)}</span>
+                  <span class="text-[11px] text-slate-400">(${escapeHtml(n.traffic)})</span>
+                </div>
+                ${couponBtn}
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
+              <a href="/nodes/${escapeHtml(n.slug)}" class="flex-1 py-2 text-center text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                ${n.pkgCount ? `${n.pkgCount}档套餐详情` : '详情评测'}
+              </a>
+              <a href="${escapeHtml(n.affUrl)}" target="_blank" rel="noopener noreferrer nofollow" class="flex-1 py-2 text-center text-xs font-bold rounded-xl bg-sky-600 hover:bg-sky-500 text-white shadow-xs transition-colors">
+                直达官网
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    ispEl.addEventListener('change', renderMatches);
+    useEl.addEventListener('change', renderMatches);
+    budgetEl.addEventListener('change', renderMatches);
+    renderMatches();
+  })();
+</script>

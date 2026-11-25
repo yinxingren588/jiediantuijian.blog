@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /dist/
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+Sitemap: https://jiediantuijian.blog/sitemap.xml
+Sitemap: https://jiediantuijian.blog/sitemap-index.xml
+Sitemap: https://jiediantuijian.blog/sitemap-0.xml

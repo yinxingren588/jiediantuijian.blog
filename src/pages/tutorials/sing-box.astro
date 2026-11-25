@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "Sing-box 2027极客配置教程 - 新一代通用代理客户端上手指南 | jiediantuijian.blog";
+const description = "2027最新Sing-box安装与配置教程。详解Sing-box核心架构、导入2027推荐节点订阅、多平台GUI客户端使用及规则路由设置，畅享前沿极速抗封锁协议。";
+const keywords = "Sing-box教程, 2027节点推荐, Sing-box订阅导入, VLESS Reality配置, Hysteria 2节点, 极客翻墙";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/tutorials/sing-box"
+  ogType="article"
+  showProgressBar={true}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center text-xs text-slate-500 mb-6 space-x-2">
+      <a href="/" class="hover:text-sky-600 transition-colors">首页</a>
+      <span>/</span>
+      <a href="/tutorials" class="hover:text-sky-600 transition-colors">客户端教程</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">Sing-box 教程</span>
+    </nav>
+
+    <article class="article-prose max-w-none">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-6 mb-8">
+        <span class="text-xs px-2.5 py-1 rounded-md bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 font-semibold">
+          2027 前沿极客方案 · 全平台通用
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3">
+          Sing-box 新一代通用代理客户端 2027 极客指南
+        </h1>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
+          发布日期：2027-01 · 支持协议：Shadowsocks, VLESS, Hysteria 2, TUIC
+        </p>
+      </div>
+
+      <div class="space-y-6 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        <p>
+          <strong>Sing-box</strong> 是由 SagerNet 团队采用现代化 Go 语言开发的新一代通用代理工具。它不仅在吞吐量、内存控制、路由规则匹配速度上超越了老牌内核，更是第一时间对 <strong>VLESS-Reality、Hysteria 2、ShadowTLS</strong> 等先进协议进行完整原生支持的开拓者。
+        </p>
+
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white pt-4">第一步：下载对应平台的 Sing-box GUI 客户端</h2>
+        <ul class="list-disc list-inside space-y-1.5">
+          <li><strong>Windows / macOS：</strong>推荐使用带图形界面的 Sing-box for Windows/Mac 或 GUI.for.SingBox；</li>
+          <li><strong>iOS：</strong>在非国区 App Store 搜索下载官方客户端「Sing-box」；</li>
+          <li><strong>Android：</strong>直接在 Google Play 或官方 GitHub Releases 下载 APK 安装包。</li>
+        </ul>
+
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white pt-4">第二步：获取支持 Sing-box 订阅的 2027 推荐节点</h2>
+        <p>
+          并不是所有传统旧机场都支持 Sing-box 格式。推荐查看本站 <a href="/nodes/edgenova" class="text-sky-600 dark:text-sky-400 font-semibold hover:underline">边缘节点 (EdgeNova)</a> 或 <a href="/nodes/dalaocloud" class="text-sky-600 dark:text-sky-400 font-semibold hover:underline">大佬云</a>，在后台直接支持导出「Sing-box 订阅链接」。
+        </p>
+
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white pt-4">第三步：添加配置并启动</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li>进入 Sing-box 客户端「Profiles（配置）」标签页；</li>
+          <li>选择「New Profile」，Type 选择「Remote（远程订阅）」；</li>
+          <li>填入订阅链接，开启自动更新频率（例如 24 小时）；</li>
+          <li>保存后切换到「Dashboard（仪表盘）」，开启核心代理开关，即可畅享极速网络。</li>
+        </ol>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

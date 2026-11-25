@@ -1,0 +1,570 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NodeCard from '../components/NodeCard.astro';
+import NodeMatcher from '../components/NodeMatcher.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import { NODE_LIST } from '../data/nodes';
+import { FAQS_LIST } from '../data/faqs';
+import { CLIENT_LIST } from '../data/clients';
+import { BLOG_POSTS } from '../data/blogs';
+
+const title = "2027节点推荐 - 最新精选高速稳定节点购买评测排行榜 | jiediantuijian.blog";
+const description = "【2027节点推荐】专注2027最新高速稳定梯子节点与机场推荐评测。实测精选优质IPLC/IEPL专线节点、4K/8K极速秒开、ChatGPT/Claude 3.5与TikTok原生解锁，支持Clash、Shadowrocket、Sing-box全平台一键订阅导入与专属折扣码。";
+const keywords = "2027节点推荐, 节点推荐, 2027高速节点, 机场节点购买, IPLC专线节点, 科学上网节点, Clash节点推荐, 梯子推荐, 2027稳定节点, shadowrocket节点, 节点测速";
+
+// Schema.org FAQPage for Bing Rich Snippets
+const faqSchema = {
+  "@type": "FAQPage",
+  "mainEntity": FAQS_LIST.slice(0, 8).map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+const championNode = NODE_LIST[0]; // 隐形人 (Invisible Network) - 独占第一排整行位子
+const topFeaturedNodes = NODE_LIST.slice(1, 7); // #2 至 #7 往下移，组成两排 3 列规整网格
+const remainingNodes = NODE_LIST.slice(7); // #8 至 #35 矩阵网格（共 28 家）
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/"
+  jsonLd={faqSchema}
+>
+  <!-- Hero Section with Bing SEO Focus on '2027节点推荐' -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-sky-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 py-14 sm:py-20 border-b border-slate-200/60 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <!-- Top Announcement Pill -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-800 dark:text-sky-300 text-xs font-semibold mb-6 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>2027 全网 35 家节点真实晚高峰测速报告 · 每月动态轮测更新</span>
+      </div>
+
+      <!-- Main H1 with exact keyword '2027节点推荐' -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight max-w-4xl mx-auto">
+        2027节点推荐
+        <span class="block text-2xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mt-3">
+          最新精选高速稳定节点梯子测速排行榜
+        </span>
+      </h1>
+
+      <!-- Intro Subtitle -->
+      <p class="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        告别频繁断连与敏感期失联。我们基于千兆专线环境，深度实测各大节点服务商的<strong>晚高峰速率、IPLC 内网丢包率、4K/8K 缓冲时延及 AI 工具原生解锁</strong>，为您呈现公正客观的 <strong>2027节点推荐</strong> 权威参考。
+      </p>
+
+      <!-- Key Highlight Badges -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
+        <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-xs border border-slate-200 dark:border-slate-800">
+          <svg class="w-4 h-4 text-sky-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>IPLC/IEPL 纯物理内网专线</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-xs border border-slate-200 dark:border-slate-800">
+          <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>ChatGPT 4o &amp; Claude 3.5 原生解锁</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-xs border border-slate-200 dark:border-slate-800">
+          <svg class="w-4 h-4 text-indigo-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>晚高峰极低丢包 · 99.99% SLA</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-xs border border-slate-200 dark:border-slate-800">
+          <svg class="w-4 h-4 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>年付低至 ¥6.53/月 · 收录 267 档配套</span>
+        </div>
+      </div>
+
+      <!-- Hero Action Buttons -->
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <a
+          href="#featured-ranking"
+          class="px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 shadow-lg shadow-sky-600/30 transition-all transform active:scale-95 flex items-center gap-2"
+        >
+          <span>立即查阅 2027 推荐节点排行</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+        <a
+          href="#node-matcher"
+          class="px-6 py-3.5 rounded-xl font-bold text-sm text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-800 shadow-xs transition-all flex items-center gap-2"
+        >
+          <span>✨ 10秒智能匹配节点</span>
+        </a>
+        <a
+          href="/blog"
+          class="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 shadow-xs transition-all flex items-center gap-2"
+        >
+          <span>深度博客专栏 &amp; 测速周报</span>
+        </a>
+        <a
+          href="/nodes"
+          class="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 shadow-xs transition-all flex items-center gap-2"
+        >
+          <span>35家推荐品牌库与搜索</span>
+        </a>
+      </div>
+
+      <!-- Trust Metrics Strip -->
+      <div class="mt-12 pt-8 border-t border-slate-200/70 dark:border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
+        <div>
+          <div class="text-2xl font-black text-slate-900 dark:text-white">35 家</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">一线梯子与专线品牌实测</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black text-sky-600 dark:text-sky-400">6 篇深度专栏</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">月度天梯与基建实战长文</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400">24 篇 FAQ</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">独立排障与防坑专题专页</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black text-amber-600 dark:text-amber-400">5 大全平台</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Win/Mac/iOS/安卓/软路由指南</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: 2027 年度力荐 Top 7 荣誉机皇 (第一排隐形人全宽独占，剩下往下移) -->
+  <section id="featured-ranking" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div>
+        <div class="inline-flex items-center gap-2 text-sky-600 dark:text-sky-400 font-semibold text-xs tracking-wider uppercase mb-1">
+          <span>Top Rated Flagships 2027</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          2027年度机皇 · 首推精选节点排行榜
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          经千兆环境连续 30 天晚高峰压力测试，综合抗封锁能力、晚高峰带宽丢包率与流媒体解锁度评定
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a
+          href="/nodes"
+          class="text-xs font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 flex items-center gap-1"
+        >
+          <span>查看全部 35 家品牌库</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Top Featured Cards Grid: 第一排隐形人独占整行，剩下品牌顺移至下方 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- 第一排：隐形人独占全宽所有位子 -->
+      <NodeCard node={championNode} featured={true} fullWidth={true} />
+
+      <!-- 第二排与第三排：剩下的品牌按序往下移（每排3个，整齐对称） -->
+      {topFeaturedNodes.map((node) => (
+        <NodeCard node={node} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Section: 其余 28 家推荐品牌矩阵快捷通道 -->
+  <section class="py-12 bg-slate-50 dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+            其余 28 家精选推荐品牌快捷通道（排名 #8 - #35）
+          </h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            涵盖 IEPL/IPLC 物理专线、高性价比大流量、极客小众微架构与外服电竞加速（全站共收录 35 家）
+          </p>
+        </div>
+        <a
+          href="/nodes"
+          class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 self-start sm:self-auto"
+        >
+          进入 35 家分类筛选与关键字搜索 →
+        </a>
+      </div>
+
+      <!-- Quick Compact Grid for Remaining 28 Nodes -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+        {remainingNodes.map((node) => (
+          <a
+            href={`/nodes/${node.slug}`}
+            class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-sky-500 dark:hover:border-sky-400 hover:shadow-sm transition-all group flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-1">
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">
+                  #{node.rank}
+                </span>
+                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400">
+                  {node.rating}分
+                </span>
+              </div>
+              <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-sky-600 truncate">
+                {node.name.split(' ')[0]}
+              </h4>
+              <p class="text-[10px] text-slate-400 truncate mt-0.5">
+                {node.categoryLabel}
+              </p>
+            </div>
+            <div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between text-[11px]">
+              <span class="font-bold text-rose-600 dark:text-rose-400">{node.monthlyPrice.split(' ')[0]}</span>
+              <span class="text-sky-600 group-hover:translate-x-0.5 transition-transform text-[10px]">评测 →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive 10-Second Node Matcher -->
+  <NodeMatcher />
+
+  <!-- Section 2: 2027 推荐节点多维横向对比表 (默认展示 Top 10，可原位一键展开全部 35 家) -->
+  <section class="py-16 bg-white dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          2027推荐节点综合对比表（支持表内实时筛选与排序）
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+          默认优先呈现实测前 10 名主力对比，点击下方按钮可一键展开全部 35 家或使用筛选快速过滤
+        </p>
+      </div>
+
+      <ComparisonTable defaultLimit={10} />
+    </div>
+  </section>
+
+  <!-- Section: 2027 四大前沿协议深度解析 (专业 EEAT 内容) -->
+  <section class="py-16 bg-slate-100/60 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          2027年科学上网四大主流网络协议深度解析
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+          理解协议底层特性，帮助您在不同网络环境下（家庭宽带、公司内网、手机移动网络）挑选最优节点配置
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">
+                主流标配
+              </span>
+              <span class="text-xs text-slate-400 font-mono">TCP / UDP</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Shadowsocks 2022</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              专为 IPLC / IEPL 物理专线量身定制的经典协议。由于专线不过墙，Shadowsocks 2022 凭借极低的加解密 CPU 开销，能够轻易跑满千兆至万兆物理带宽，是全专线旗舰节点的首选。
+            </p>
+          </div>
+          <a href="/faq/iplc-vs-iepl-vs-bgp-transit" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+            深入了解 IPLC/IEPL 物理专线原理 →
+          </a>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                抗嗅探标杆
+              </span>
+              <span class="text-xs text-slate-400 font-mono">TLS 1.3</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">VLESS-Reality</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              新一代免证书借壳伪装技术。流量直接伪装为合法大型海外大厂（如 Apple、Microsoft）的真实 TLS 流量，彻底消除了主动探测与证书指纹特征，抗审查与防阻断能力极强。
+            </p>
+          </div>
+          <a href="/faq/hysteria2-vs-vless-reality-protocols" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+            阅读 Reality 协议完整深度解读 →
+          </a>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                弱网神仙协议
+              </span>
+              <span class="text-xs text-slate-400 font-mono">QUIC / UDP</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Hysteria 2 (歇斯底里)</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              基于定制 QUIC 协议的高级拥塞控制协议。即便在丢包率高达 15%~30% 的恶劣弱网、手机地铁通勤环境中，仍能强行榨干带宽，告别重传等待，是移动办公首选。
+            </p>
+          </div>
+          <a href="/faq/hysteria2-vs-vless-reality-protocols" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+            对比 Hysteria 2 与其他协议优劣 →
+          </a>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300">
+                高兼容经典
+              </span>
+              <span class="text-xs text-slate-400 font-mono">HTTPS 伪装</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Trojan / Trojan-Go</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              模拟正常 HTTPS 网页访问流量的常青树协议。几乎受到所有路由器固件（OpenWrt/Passwall）及全平台客户端的原生支持，稳定性与跨设备兼容性极佳。
+            </p>
+          </div>
+          <a href="/faq/multi-device-ip-clash-account-ban" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+            软路由与多设备防封配置指南 →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: 三大运营商 2027 节点选型建议 -->
+  <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        三大运营商宽带（电信/联通/移动）选节点技巧
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+        不同运营商的国际出口路由截然不同，选对骨干类型才能彻底发挥千兆带宽实力
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base mb-4">
+            电信
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">
+            中国电信（China Telecom）
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+            电信普通公网出口（163骨干网）在晚高峰 20:00-23:00 极其拥堵，丢包率往往超过 10%。
+          </p>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-[11px] text-slate-700 dark:text-slate-300">
+            <strong class="text-blue-600 dark:text-blue-400">推荐方案：</strong>必须首选具备<strong>「纯 IEPL/IPLC 物理专线」</strong>或<strong>「CN2 GIA/多线 BGP 双活入口」</strong>的节点（如隐形人、暮光加速、大佬云），完全绕过 163 拥堵。
+          </div>
+        </div>
+        <a href="/faq/telecom-unicom-mobile-isp-optimization" class="mt-4 text-[11px] font-semibold text-sky-600 hover:underline">
+          查看三大运营商宽带完整选线解析 →
+        </a>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-base mb-4">
+            联通
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">
+            中国联通（China Unicom）
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+            联通出国带宽人均拥有率最高，普通 169 骨干网日常表现已属优良，搭配 9929 或内网专线更是如虎添翼。
+          </p>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-[11px] text-slate-700 dark:text-slate-300">
+            <strong class="text-rose-600 dark:text-rose-400">推荐方案：</strong>联通适配性极广，选择<strong>「微风网络」</strong>、<strong>「飞猫云」</strong>或<strong>「光年梯」</strong>均可跑满千兆速率，性价比极高。
+          </div>
+        </div>
+        <a href="/faq/telecom-unicom-mobile-isp-optimization" class="mt-4 text-[11px] font-semibold text-sky-600 hover:underline">
+          查看联通 9929/4837 优化策略 →
+        </a>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-base mb-4">
+            移动
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">
+            中国移动（China Mobile）
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+            移动国际出口走 CMIN2 体验尚可，但部分省份存在严格的跨省结算与公网 UDP 严苛 QoS 丢弃。
+          </p>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-[11px] text-slate-700 dark:text-slate-300">
+            <strong class="text-emerald-600 dark:text-emerald-400">推荐方案：</strong>建议优先挑选支持<strong>「Hysteria 2 协议」</strong>（如 Firefly、微风网络）或具备<strong>「广港直连 IPLC」</strong>的服务商，抗 QoS 丢包极佳。
+          </div>
+        </div>
+        <a href="/faq/speedtest-fast-but-youtube-4k-buffers" class="mt-4 text-[11px] font-semibold text-sky-600 hover:underline">
+          查看突破移动 UDP QoS 限速方法 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: 常用客户端推荐与教程入口 -->
+  <section class="py-16 bg-slate-100/60 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          2027主流翻墙客户端配置指南
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+          支持 Windows、macOS、iOS、Android 全平台，获取 2027 推荐节点订阅后一键极速导入
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {CLIENT_LIST.slice(0, 4).map((client) => (
+          <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between shadow-xs">
+            <div>
+              <div class="flex items-center justify-between mb-3 gap-2">
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 truncate">
+                  {client.osLabel}
+                </span>
+                <span class="text-[11px] text-sky-600 dark:text-sky-400 font-medium whitespace-nowrap">{client.badge}</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">{client.name}</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 mb-4">
+                {client.desc}
+              </p>
+              <div class="text-[11px] text-slate-500 mb-4">
+                <span class="font-medium text-slate-700 dark:text-slate-300">适配推荐节点：</span>
+                {client.recommendedNode}
+              </div>
+            </div>
+
+            <a
+              href={client.tutorialUrl}
+              class="w-full py-2 px-3 text-center text-xs font-semibold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900/60 rounded-xl transition-colors border border-sky-100 dark:border-sky-900/40"
+            >
+              查看客户端安装配置教程 →
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 text-center flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="/tutorials/router-openwrt"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 hover:border-sky-500 transition-colors"
+        >
+          <span>进阶：OpenWrt 软路由与 Apple TV 全屋网关配置教程 →</span>
+        </a>
+        <a
+          href="/tutorials"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors shadow-xs"
+        >
+          <span>进入全平台教程中心（共 5 大端） →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: 2027 最新精选深度博客专栏 -->
+  <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/70 dark:border-slate-800">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div>
+        <div class="inline-flex items-center gap-2 text-sky-600 dark:text-sky-400 font-semibold text-xs tracking-wider uppercase mb-1">
+          <span>2027 Technical Blog &amp; Field Reports</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          最新精选深度博客与测速周报专栏
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          结合实测采样与长期一线工程实践，系统梳理 2027 科学上网避坑、IEPL 专线选购及 AI/外贸基建干货
+        </p>
+      </div>
+      <a href="/blog" class="text-xs font-bold text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1 shrink-0">
+        <span>浏览全部 {BLOG_POSTS.length} 篇长篇专栏文章</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {BLOG_POSTS.slice(0, 3).map((post, idx) => (
+        <article class={`rounded-2xl border p-6 flex flex-col justify-between transition-all hover:shadow-md ${
+          idx === 0
+            ? 'border-amber-300/80 dark:border-amber-700/60 bg-gradient-to-br from-amber-50/40 via-white to-sky-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-amber-950/15'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900'
+        }`}>
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-800">
+                {post.categoryLabel}
+              </span>
+              <span class="text-[11px] text-slate-400">{post.readingTime}</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug mb-2">
+              <a href={`/blog/${post.slug}`} class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                {post.title}
+              </a>
+            </h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
+              {post.excerpt}
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-slate-400">更新：{post.updateDate}</span>
+            <a href={`/blog/${post.slug}`} class="font-bold text-sky-600 dark:text-sky-400 hover:underline">
+              阅读全文 →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 5: 常见问答 FAQ (针对 Bing Rich Snippets 结构化数据) -->
+  <section class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        2027节点推荐 常见问题与答疑（FAQ）
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+        整理 Bing 搜索高频关切：节点跑路防范、IPLC 专线原理、ChatGPT 解锁及订阅导入方式
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {FAQS_LIST.slice(0, 8).map((faq) => (
+        <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 open:bg-sky-50/20 dark:open:bg-slate-900/80 transition-all">
+          <summary class="flex items-center justify-between font-bold text-slate-900 dark:text-white text-sm sm:text-base cursor-pointer list-none select-none">
+            <span class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-600 dark:text-sky-400 text-xs flex items-center justify-center shrink-0">
+                ?
+              </span>
+              <span>{faq.question}</span>
+            </span>
+            <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed pl-9">
+            <p>{faq.answer}</p>
+            <div class="mt-3 pt-3 border-t border-dashed border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <span class="text-[11px] text-slate-400">分类：{faq.categoryLabel}</span>
+              <a
+                href={`/faq/${faq.slug}`}
+                class="inline-flex items-center gap-1 text-xs font-bold text-sky-600 hover:text-sky-500 transition-colors"
+              >
+                <span>阅读本题独立深度长篇指南</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <div class="mt-8 text-center">
+      <a
+        href="/faq"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-sky-600/20 transition-all active:scale-95"
+      >
+        <span>查看全部 24 篇 2027 节点常见问题与深度长篇解答库</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

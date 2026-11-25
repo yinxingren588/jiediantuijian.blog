@@ -1,0 +1,511 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NODE_LIST } from '../data/nodes';
+import { CLIENT_LIST } from '../data/clients';
+import { FAQS_LIST } from '../data/faqs';
+import { BLOG_POSTS } from '../data/blogs';
+
+const corePages = [
+  {
+    href: '/',
+    title: '首页总览 - 2027节点推荐排行榜',
+    desc: '最新 35 家专线节点综合榜单、场景推荐引擎与最新实测动态',
+    priority: '1.0',
+    badge: '核心入口',
+  },
+  {
+    href: '/nodes',
+    title: '全站节点索引库与多维度筛选',
+    desc: `支持按 IEPL/IPLC 专线、AI/外贸纯净 IP、高性价比机场与按量付费筛选`,
+    priority: '0.9',
+    badge: '高频频道',
+  },
+  {
+    href: '/comparison',
+    title: `全网 ${NODE_LIST.length} 家节点多维横评对比表`,
+    desc: '晚高峰带宽、三网丢包率、原生解锁能力、月费与套餐流量一表横评',
+    priority: '0.9',
+    badge: '横评矩阵',
+  },
+  {
+    href: '/blog',
+    title: `深度技术评测与月度测速专栏 (${BLOG_POSTS.length} 篇)`,
+    desc: '月度测速天梯报告、2027 选购避坑指南与软路由分流实战',
+    priority: '0.9',
+    badge: '专栏聚合',
+  },
+  {
+    href: '/faq',
+    title: `高频问答 FAQ 独立知识库 (${FAQS_LIST.length} 篇)`,
+    desc: '针对跑路防范、IPLC 专线、ChatGPT 解锁与客户端报错的深度解答',
+    priority: '0.8',
+    badge: '问答专栏',
+  },
+  {
+    href: '/tutorials',
+    title: `全平台客户端与软路由教程中心 (${CLIENT_LIST.length} 篇)`,
+    desc: '覆盖 Clash Verge Rev、小火箭、Sing-box、安卓电视与 OpenWrt',
+    priority: '0.8',
+    badge: '教程总览',
+  },
+  {
+    href: '/sitemap',
+    title: '网站地图 (HTML Sitemap) 全站导航',
+    desc: '人类可读与搜索引擎爬虫同步索引的全站结构化页面总目录',
+    priority: '0.7',
+    badge: '全站索引',
+  },
+  {
+    href: '/about',
+    title: '关于本站评测标准与合规免责声明',
+    desc: '晚高峰压测方法论、原生解锁测试基准与合规声明',
+    priority: '0.6',
+    badge: '站点声明',
+  },
+];
+
+const totalPageCount =
+  corePages.length + BLOG_POSTS.length + FAQS_LIST.length + NODE_LIST.length + CLIENT_LIST.length;
+
+const title = `网站地图 (Sitemap) - 全站 ${totalPageCount} 个索引页面导航目录 | jiediantuijian.blog`;
+const description = `2027节点推荐官方全站网站地图（HTML Sitemap + XML Sitemap）。完整收录全站 ${totalPageCount} 个索引页面：含 ${corePages.length} 个核心频道、${NODE_LIST.length} 家品牌节点评测、${BLOG_POSTS.length} 篇深度测速博文、${FAQS_LIST.length} 篇独立 FAQ 长文、${CLIENT_LIST.length} 篇客户端配置教程，以及 sitemap.xml 与 IndexNow 搜索引擎抓取入口。`;
+const keywords = "网站地图, sitemap, sitemap.xml, 2027节点推荐索引, 全站导航, 节点评测目录, jiediantuijian.blog";
+
+const collectionSchema = {
+  "@type": "CollectionPage",
+  "name": "2027节点推荐网站地图 (Sitemap)",
+  "url": "https://jiediantuijian.blog/sitemap",
+  "description": description,
+  "inLanguage": "zh-CN",
+  "numberOfItems": totalPageCount,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/sitemap"
+  jsonLd={collectionSchema}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center text-xs text-slate-500 dark:text-slate-400 mb-6 space-x-2">
+      <a href="/" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">首页</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">网站地图 (HTML Sitemap)</span>
+    </nav>
+
+    <!-- Header & Live Summary Stats -->
+    <div class="mb-8 p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-950/70 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-semibold mb-3">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>全站完整索引 · 共 {totalPageCount} 个可抓取页面</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            网站地图 (Sitemap) — 全站全量目录索引
+          </h1>
+          <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed">
+            汇总 <strong>jiediantuijian.blog</strong> 全部 {totalPageCount} 个权威静态索引页面与搜索引擎专用 XML 站点地图。支持实时关键字检索任意节点评测、技术专栏、FAQ 问答与教程指南。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 shrink-0">
+          <div class="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-center">
+            <div class="text-xl font-black text-sky-600 dark:text-sky-400">{NODE_LIST.length}</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">节点深度评测</div>
+          </div>
+          <div class="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-center">
+            <div class="text-xl font-black text-emerald-600 dark:text-emerald-400">{FAQS_LIST.length}</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">独立 FAQ 专栏</div>
+          </div>
+          <div class="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-center">
+            <div class="text-xl font-black text-violet-600 dark:text-violet-400">{BLOG_POSTS.length}</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">测速专栏博文</div>
+          </div>
+          <div class="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-center">
+            <div class="text-xl font-black text-amber-600 dark:text-amber-400">{CLIENT_LIST.length}</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">客户端专项教程</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Search + Anchor Quick Navigation -->
+      <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input
+              type="text"
+              id="sitemap-search"
+              placeholder={`快速过滤全站 ${totalPageCount} 个页面（如：隐形人、IEPL、ChatGPT、小火箭...）`}
+              class="w-full pl-10 pr-24 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500 transition-all"
+            />
+            <button
+              type="button"
+              id="sitemap-clear"
+              class="hidden absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer"
+            >
+              清空
+            </button>
+          </div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 shrink-0 px-1">
+            当前显示：<strong id="sitemap-match-count" class="text-slate-900 dark:text-white">{totalPageCount}</strong> / {totalPageCount} 个页面
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-xs">
+          <a href="#sec-core" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 text-slate-700 dark:text-slate-300 font-medium transition-colors">核心频道 ({corePages.length})</a>
+          <a href="#sec-xml" class="px-3 py-1.5 rounded-lg bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-semibold transition-colors">XML Sitemap 与爬虫入口</a>
+          <a href="#sec-nodes" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 text-slate-700 dark:text-slate-300 font-medium transition-colors">节点评测 ({NODE_LIST.length})</a>
+          <a href="#sec-blogs" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 text-slate-700 dark:text-slate-300 font-medium transition-colors">测速专栏 ({BLOG_POSTS.length})</a>
+          <a href="#sec-faqs" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 text-slate-700 dark:text-slate-300 font-medium transition-colors">独立 FAQ ({FAQS_LIST.length})</a>
+          <a href="#sec-tutorials" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 text-slate-700 dark:text-slate-300 font-medium transition-colors">客户端教程 ({CLIENT_LIST.length})</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty search banner -->
+    <div id="sitemap-empty" class="hidden mb-8 p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+      <p class="text-sm text-slate-600 dark:text-slate-400">未找到匹配该关键词的页面，请尝试更换关键词或点击下方重置按钮。</p>
+      <button type="button" id="sitemap-empty-reset" class="mt-3 px-4 py-2 rounded-xl bg-sky-600 text-white text-xs font-semibold hover:bg-sky-700 transition-colors cursor-pointer">
+        显示全部 {totalPageCount} 个页面
+      </button>
+    </div>
+
+    <div class="space-y-8">
+      <!-- Row 1: Core Navigation + Search Engine XML Endpoints -->
+      <div id="row-core-xml" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Core Pages -->
+        <section id="sec-core" data-sitemap-section class="lg:col-span-2 p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div class="flex items-center justify-between gap-2 pb-3 mb-5 border-b border-slate-100 dark:border-slate-800">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-sky-500 rounded-full"></span>
+              <span>核心主站导航频道</span>
+            </h2>
+            <span class="text-xs font-medium text-slate-400">{corePages.length} 个入口</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {corePages.map((page) => (
+              <a
+                href={page.href}
+                data-sitemap-item
+                data-search={`${page.title} ${page.desc} ${page.href} ${page.badge}`.toLowerCase()}
+                class="group p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 hover:border-sky-400 dark:hover:border-sky-500 hover:bg-sky-50/40 dark:hover:bg-sky-950/30 transition-all block"
+              >
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300">
+                    {page.badge}
+                  </span>
+                  <span class="text-[10px] font-mono text-slate-400">Priority {page.priority}</span>
+                </div>
+                <div class="text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                  {page.title}
+                </div>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{page.desc}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <!-- Search Engine XML Sitemap & IndexNow Endpoints -->
+        <section id="sec-xml" class="p-6 sm:p-7 rounded-2xl bg-slate-900 dark:bg-slate-900 text-slate-100 border border-slate-800 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-800">
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <span class="w-1.5 h-5 bg-emerald-400 rounded-full"></span>
+                <span>搜索引擎专用 XML 索引</span>
+              </h2>
+              <span class="text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-semibold">爬虫直连</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              同时提供标准单文件 <code class="text-sky-300">/sitemap.xml</code> 与分片索引 <code class="text-sky-300">/sitemap-index.xml</code>，适配 Bing Webmaster Tools、Google Search Console 与百度站长平台实时提交。
+            </p>
+            <div class="space-y-2.5 text-xs">
+              <a href="/sitemap.xml" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-sky-400 transition-colors group">
+                <div>
+                  <div class="font-bold text-sky-400 group-hover:text-sky-300 font-mono">/sitemap.xml</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">标准全量 XML 站点地图 ({totalPageCount} URLs)</div>
+                </div>
+                <span class="text-slate-400 group-hover:text-white">↗</span>
+              </a>
+              <a href="/sitemap-index.xml" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-sky-400 transition-colors group">
+                <div>
+                  <div class="font-bold text-emerald-400 group-hover:text-emerald-300 font-mono">/sitemap-index.xml</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">分片 Sitemap 索引文件</div>
+                </div>
+                <span class="text-slate-400 group-hover:text-white">↗</span>
+              </a>
+              <a href="/sitemap-0.xml" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-sky-400 transition-colors group">
+                <div>
+                  <div class="font-bold text-indigo-400 group-hover:text-indigo-300 font-mono">/sitemap-0.xml</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">自动生成分片 URL 明细清单</div>
+                </div>
+                <span class="text-slate-400 group-hover:text-white">↗</span>
+              </a>
+              <a href="/robots.txt" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-sky-400 transition-colors group">
+                <div>
+                  <div class="font-bold text-amber-400 group-hover:text-amber-300 font-mono">/robots.txt</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">搜索引擎抓取权限与站点地图声明</div>
+                </div>
+                <span class="text-slate-400 group-hover:text-white">↗</span>
+              </a>
+              <a href="/8f26a57c91e045bb8d15ea4172e29381.txt" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-sky-400 transition-colors group">
+                <div>
+                  <div class="font-bold text-slate-300 group-hover:text-white font-mono text-[11px]">IndexNow Key 验证文件</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">Bing / Yandex 秒级主动推送验证</div>
+                </div>
+                <span class="text-slate-400 group-hover:text-white">↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Row 2: Dedicated Node Review Pages (All 35 Brands) -->
+      <section id="sec-nodes" data-sitemap-section class="p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b border-slate-100 dark:border-slate-800">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-1.5 h-5 bg-emerald-500 rounded-full"></span>
+            <span>各大推荐节点专属深度评测页（共 {NODE_LIST.length} 家）</span>
+          </h2>
+          <a href="/comparison" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+            前往 35 家全维度横评表 →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {NODE_LIST.map((node) => (
+            <a
+              href={`/nodes/${node.slug}`}
+              data-sitemap-item
+              data-search={`${node.rank} ${node.name} ${node.categoryLabel} ${node.lineType} ${node.monthlyPrice} ${node.traffic} ${node.couponCode} ${node.slug}`.toLowerCase()}
+              class={`group flex items-center justify-between gap-3 p-3.5 rounded-xl border transition-all ${
+                node.rank === 1
+                  ? 'bg-amber-50/70 dark:bg-amber-950/30 border-amber-300 dark:border-amber-700/80 hover:border-amber-500'
+                  : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/80 dark:border-slate-700/80 hover:border-sky-400 dark:hover:border-sky-500'
+              }`}
+            >
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class={`text-xs font-black px-1.5 py-0.5 rounded ${
+                    node.rank === 1
+                      ? 'bg-amber-500 text-white'
+                      : node.rank <= 3
+                        ? 'bg-sky-600 text-white'
+                        : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
+                  }`}>
+                    #{node.rank}
+                  </span>
+                  <span class="text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 truncate transition-colors">
+                    {node.name}
+                  </span>
+                </div>
+                <div class="mt-1 text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                  {node.categoryLabel} · {node.traffic}
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400">{node.monthlyPrice}</div>
+                <div class="text-[10px] font-mono text-slate-400">{node.rating}分</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- Row 3: Deep Blog Posts + Client Tutorials -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Deep Blog Posts -->
+        <section id="sec-blogs" data-sitemap-section class="p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div class="flex items-center justify-between gap-2 pb-3 mb-5 border-b border-slate-100 dark:border-slate-800">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-violet-500 rounded-full"></span>
+              <span>深度评测专栏文章（{BLOG_POSTS.length} 篇）</span>
+            </h2>
+            <a href="/blog" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline">专栏首页 →</a>
+          </div>
+          <ul class="space-y-3">
+            {BLOG_POSTS.map((post, idx) => (
+              <li
+                data-sitemap-item
+                data-search={`${post.title} ${post.subtitle} ${post.categoryLabel} ${post.tags.join(' ')} ${post.slug}`.toLowerCase()}
+              >
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="group block p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-violet-400 dark:hover:border-violet-500 transition-all"
+                >
+                  <div class="flex items-center justify-between gap-2 text-[11px] mb-1">
+                    <span class="font-semibold text-violet-600 dark:text-violet-400">
+                      #{idx + 1} · {post.categoryLabel}
+                    </span>
+                    <span class="text-slate-400 font-mono">{post.updateDate}</span>
+                  </div>
+                  <div class="text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-snug">
+                    {post.title}
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <!-- Client Tutorials (Dynamic from CLIENT_LIST) -->
+        <section id="sec-tutorials" data-sitemap-section class="p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div class="flex items-center justify-between gap-2 pb-3 mb-5 border-b border-slate-100 dark:border-slate-800">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-amber-500 rounded-full"></span>
+              <span>客户端使用与配置教程（{CLIENT_LIST.length} 篇）</span>
+            </h2>
+            <a href="/tutorials" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline">教程中心 →</a>
+          </div>
+          <ul class="space-y-3">
+            {CLIENT_LIST.map((client) => (
+              <li
+                data-sitemap-item
+                data-search={`${client.name} ${client.osLabel} ${client.badge} ${client.protocolSupport.join(' ')} ${client.tutorialUrl}`.toLowerCase()}
+              >
+                <a
+                  href={client.tutorialUrl}
+                  class="group flex items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-amber-400 dark:hover:border-amber-500 transition-all"
+                >
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                        {client.name} 配置教程
+                      </span>
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 font-semibold">
+                        {client.badge}
+                      </span>
+                    </div>
+                    <div class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                      支持系统：{client.osLabel}
+                    </div>
+                  </div>
+                  <span class="text-xs font-mono text-slate-400 shrink-0">{client.tutorialUrl}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+
+      <!-- Row 4: Independent FAQ Articles (All 24 Long-Form Articles) -->
+      <section id="sec-faqs" data-sitemap-section class="p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-5 border-b border-slate-100 dark:border-slate-800">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-1.5 h-5 bg-indigo-500 rounded-full"></span>
+            <span>常见问题独立长篇专栏（共 {FAQS_LIST.length} 篇）</span>
+          </h2>
+          <a href="/faq" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline">
+            前往 FAQ 聚合页 →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {FAQS_LIST.map((faq, idx) => (
+            <a
+              href={`/faq/${faq.slug}`}
+              data-sitemap-item
+              data-search={`${faq.question} ${faq.categoryLabel} ${faq.tags.join(' ')} ${faq.slug}`.toLowerCase()}
+              class="group flex items-start gap-3 p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all"
+            >
+              <span class="shrink-0 mt-0.5 px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold font-mono">
+                Q{String(idx + 1).padStart(2, '0')}
+              </span>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm font-semibold text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug">
+                  {faq.question}
+                </div>
+                <div class="mt-1 flex items-center gap-2 text-[11px] text-slate-400">
+                  <span class="text-indigo-500 dark:text-indigo-400 font-medium">{faq.categoryLabel}</span>
+                  <span>·</span>
+                  <span>{faq.readingTime}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      const input = document.getElementById('sitemap-search');
+      const clearBtn = document.getElementById('sitemap-clear');
+      const emptyBanner = document.getElementById('sitemap-empty');
+      const emptyResetBtn = document.getElementById('sitemap-empty-reset');
+      const matchCountEl = document.getElementById('sitemap-match-count');
+      const rowCoreXml = document.getElementById('row-core-xml');
+      const secCore = document.getElementById('sec-core');
+      const secXml = document.getElementById('sec-xml');
+      const items = Array.from(document.querySelectorAll('[data-sitemap-item]'));
+      const sections = Array.from(document.querySelectorAll('[data-sitemap-section]'));
+
+      function applyFilter() {
+        const query = (input && input.value ? input.value : '').trim().toLowerCase();
+        if (clearBtn) {
+          clearBtn.classList.toggle('hidden', query.length === 0);
+        }
+
+        let visibleCount = 0;
+        items.forEach(function (el) {
+          const text = el.getAttribute('data-search') || '';
+          const matched = !query || text.includes(query);
+          el.classList.toggle('hidden', !matched);
+          if (matched) visibleCount += 1;
+        });
+
+        sections.forEach(function (sec) {
+          const sectionItems = Array.from(sec.querySelectorAll('[data-sitemap-item]'));
+          const anyVisible = sectionItems.some(function (el) {
+            return !el.classList.contains('hidden');
+          });
+          sec.classList.toggle('hidden', !anyVisible);
+        });
+
+        const showXmlSection =
+          !query ||
+          ['xml', 'sitemap', 'robots', 'indexnow', '爬虫', '引擎', '抓取', '地图'].some(function (kw) {
+            return query.includes(kw);
+          });
+        if (secXml) {
+          secXml.classList.toggle('hidden', !showXmlSection);
+        }
+        if (rowCoreXml) {
+          const coreHidden = secCore && secCore.classList.contains('hidden');
+          const xmlHidden = secXml && secXml.classList.contains('hidden');
+          rowCoreXml.classList.toggle('hidden', Boolean(coreHidden && xmlHidden));
+        }
+
+        if (matchCountEl) {
+          matchCountEl.textContent = String(visibleCount);
+        }
+        if (emptyBanner) {
+          emptyBanner.classList.toggle('hidden', visibleCount > 0 || (query.length > 0 && showXmlSection));
+        }
+      }
+
+      if (input) {
+        input.addEventListener('input', applyFilter);
+      }
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+          if (input) input.value = '';
+          applyFilter();
+          if (input) input.focus();
+        });
+      }
+      if (emptyResetBtn) {
+        emptyResetBtn.addEventListener('click', function () {
+          if (input) input.value = '';
+          applyFilter();
+          if (input) input.focus();
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

@@ -1,0 +1,319 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NodeCard from '../../components/NodeCard.astro';
+import { NODE_LIST, CATEGORIES } from '../../data/nodes';
+
+const title = "2027节点推荐大全 - 35家全专线/性价比/外贸AI节点分类评测与智能排序 | jiediantuijian.blog";
+const description = "2027节点推荐分类汇总导航。精选2027全专线IPLC/IEPL旗舰节点、高性价比平民节点、外贸跨境与ChatGPT原生解锁节点、游戏电竞专线，支持按品牌名称实时搜索、分类切换与价格/评分智能排序。";
+const keywords = "2027节点推荐, 节点分类, IPLC专线节点, 便宜机场节点, 外贸节点, ChatGPT节点推荐, 节点搜索, 节点评测";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonicalPath="/nodes"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="ranking">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center text-xs text-slate-500 mb-6 space-x-2">
+      <a href="/" class="hover:text-sky-600 transition-colors">首页</a>
+      <span>/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">2027节点推荐大全</span>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="mb-10 text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-300 text-xs font-semibold mb-3">
+        <span>全网深度测速榜单 · 35家品牌实测收录</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+        2027节点推荐精选大全
+      </h1>
+      <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+        根据您的实际预算与使用场景（办公外贸、4K/8K追剧、AI科研或外服电竞），通过关键词搜索、分类标签与价格/评分排序，快速筛选最匹配的 2027 高速稳定节点梯子。
+      </p>
+    </div>
+
+    <!-- Search, Filter & Sort Controls Bar -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs mb-8 space-y-4">
+      <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        <!-- Search Input -->
+        <div class="relative w-full md:w-96">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="搜索品牌名称（如：隐形人、暮光、飞猫、光年）..."
+            class="w-full pl-9 pr-9 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <button
+            type="button"
+            id="clear-search-btn"
+            aria-label="清空搜索"
+            class="hidden absolute right-2.5 top-2.5 p-0.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="flex items-center gap-2 shrink-0">
+          <label for="sort-select" class="text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap">
+            排序方式：
+          </label>
+          <select
+            id="sort-select"
+            class="px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+          >
+            <option value="rank">2027 综合推荐天梯排名</option>
+            <option value="rating-desc">综合实测评分（从高到低）</option>
+            <option value="price-asc">入门月付价格（从低到高）</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-1.5 pt-3 border-t border-slate-100 dark:border-slate-800/70" id="filter-tabs">
+        {CATEGORIES.map((cat, idx) => (
+          <button
+            type="button"
+            data-category={cat.key}
+            class={`filter-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 border cursor-pointer ${
+              idx === 0
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs active-tab'
+                : 'bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Results Counter & Status -->
+    <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-6 px-1">
+      <div>
+        当前共展示 <strong class="text-sky-600 dark:text-sky-400 font-bold" id="visible-count">{NODE_LIST.length}</strong> 家优质推荐节点
+      </div>
+      <div class="text-[11px] text-slate-400">
+        * 晚高峰数据每周动态轮测
+      </div>
+    </div>
+
+    <!-- Nodes Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="nodes-container">
+      {NODE_LIST.map((node, index) => (
+        <div
+          class={`node-wrapper ${index === 0 ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''}`}
+          data-rank={node.rank}
+          data-category={node.category}
+          data-line={node.lineType.toUpperCase()}
+          data-name={`${node.name} ${node.slug} ${node.badge} ${node.streamingUnlock.join(' ')}`.toLowerCase()}
+          data-price={node.priceNumeric}
+          data-rating={node.rating}
+          data-is-champion={index === 0 ? '1' : '0'}
+        >
+          {index === 0 ? (
+            <>
+              <div id="champion-full-view">
+                <NodeCard node={node} featured={true} fullWidth={true} />
+              </div>
+              <div id="champion-compact-view" class="hidden h-full">
+                <NodeCard node={node} featured={true} fullWidth={false} />
+              </div>
+            </>
+          ) : (
+            <NodeCard node={node} featured={false} />
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 mt-4">
+      <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <p class="text-sm font-bold text-slate-700 dark:text-slate-300">没有找到匹配的推荐节点</p>
+      <p class="text-xs text-slate-400 mt-1 mb-5">请尝试清除搜索关键字或切换分类标签</p>
+      <button
+        type="button"
+        id="reset-filters-btn"
+        class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer"
+      >
+        重置所有筛选并查看全部 35 家
+      </button>
+    </div>
+
+    <!-- Tips Box -->
+    <div class="mt-16 p-6 sm:p-8 rounded-2xl border border-sky-100 dark:border-sky-900/40 bg-sky-50/60 dark:bg-sky-950/20 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+      <div class="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-sm mb-2">
+        <svg class="w-5 h-5 text-sky-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>2027节点推荐评测室选购建议：</span>
+      </div>
+      <p>
+        对于需要重度使用 ChatGPT 4o、Claude 3.5 以及 TikTok 运营的读者，优先推荐选择具备<strong>「原生住宅 IP」</strong>与<strong>「纯 IEPL/IPLC 物理专线」</strong>的节点（如隐形人、暮光加速、微风网络、大佬云）；对于偶尔查资料、看 YouTube 视频的学生党，选择<strong>「飞猫云」</strong>或<strong>「光年梯」</strong>每月十几元即可满足日常；此外也可以考虑常备第二梯子作为保底备用。
+      </p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function() {
+      const container = document.getElementById('nodes-container');
+      const searchInput = document.getElementById('search-input');
+      const clearSearchBtn = document.getElementById('clear-search-btn');
+      const sortSelect = document.getElementById('sort-select');
+      const tabs = document.querySelectorAll('.filter-tab');
+      const items = Array.from(document.querySelectorAll('.node-wrapper'));
+      const countEl = document.getElementById('visible-count');
+      const emptyState = document.getElementById('empty-state');
+      const resetFiltersBtn = document.getElementById('reset-filters-btn');
+      const champFull = document.getElementById('champion-full-view');
+      const champCompact = document.getElementById('champion-compact-view');
+
+      let currentCategory = 'all';
+      let currentKeyword = '';
+      let currentSort = 'rank';
+
+      function setActiveTab(catKey) {
+        currentCategory = catKey || 'all';
+        tabs.forEach(t => {
+          const isMatch = t.getAttribute('data-category') === currentCategory;
+          if (isMatch) {
+            t.classList.remove('bg-slate-50', 'dark:bg-slate-800/80', 'text-slate-600', 'dark:text-slate-300', 'border-slate-200', 'dark:border-slate-700');
+            t.classList.add('bg-sky-600', 'text-white', 'border-sky-600', 'shadow-xs', 'active-tab');
+          } else {
+            t.classList.remove('bg-sky-600', 'text-white', 'border-sky-600', 'shadow-xs', 'active-tab');
+            t.classList.add('bg-slate-50', 'dark:bg-slate-800/80', 'text-slate-600', 'dark:text-slate-300', 'border-slate-200', 'dark:border-slate-700');
+          }
+        });
+      }
+
+      function applySortAndFilter() {
+        if (!container) return;
+
+        // Sort nodes inside container
+        const sorted = [...items].sort((a, b) => {
+          if (currentSort === 'price-asc') {
+            return parseFloat(a.dataset.price || '999') - parseFloat(b.dataset.price || '999');
+          }
+          if (currentSort === 'rating-desc') {
+            return parseFloat(b.dataset.rating || '0') - parseFloat(a.dataset.rating || '0');
+          }
+          return parseInt(a.dataset.rank || '99', 10) - parseInt(b.dataset.rank || '99', 10);
+        });
+
+        let visibleCount = 0;
+        let firstVisibleItem = null;
+
+        sorted.forEach(item => {
+          container.appendChild(item);
+          const itemCat = item.getAttribute('data-category');
+          const itemLine = item.getAttribute('data-line') || '';
+          const itemName = item.getAttribute('data-name') || '';
+
+          const matchesCat = (currentCategory === 'all') ||
+                             (itemCat === currentCategory) ||
+                             (currentCategory === 'iplc' && (itemCat === 'flagship' || itemCat === 'iplc' || itemLine.includes('IPLC') || itemLine.includes('IEPL')));
+
+          const matchesKeyword = !currentKeyword || itemName.includes(currentKeyword.toLowerCase());
+
+          if (matchesCat && matchesKeyword) {
+            item.style.display = 'block';
+            if (!firstVisibleItem) firstVisibleItem = item;
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        // Switch champion card between fullWidth (when #1 is first visible in grid) and compact (when moved mid-list by sort)
+        const champWrapper = items.find(i => i.dataset.isChampion === '1');
+        if (champWrapper && champFull && champCompact) {
+          const isChampAtTop = firstVisibleItem === champWrapper;
+          if (isChampAtTop) {
+            champWrapper.classList.add('col-span-1', 'md:col-span-2', 'lg:col-span-3');
+            champFull.classList.remove('hidden');
+            champCompact.classList.add('hidden');
+          } else {
+            champWrapper.classList.remove('col-span-1', 'md:col-span-2', 'lg:col-span-3');
+            champFull.classList.add('hidden');
+            champCompact.classList.remove('hidden');
+          }
+        }
+
+        if (clearSearchBtn) {
+          clearSearchBtn.classList.toggle('hidden', !currentKeyword);
+        }
+        if (countEl) countEl.textContent = String(visibleCount);
+        if (emptyState) {
+          emptyState.classList.toggle('hidden', visibleCount > 0);
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          currentKeyword = e.target.value.trim();
+          applySortAndFilter();
+        });
+      }
+
+      if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+          currentKeyword = '';
+          if (searchInput) searchInput.value = '';
+          applySortAndFilter();
+        });
+      }
+
+      if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+          currentSort = e.target.value || 'rank';
+          applySortAndFilter();
+        });
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          setActiveTab(tab.getAttribute('data-category'));
+          applySortAndFilter();
+        });
+      });
+
+      if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', () => {
+          currentKeyword = '';
+          currentSort = 'rank';
+          if (searchInput) searchInput.value = '';
+          if (sortSelect) sortSelect.value = 'rank';
+          setActiveTab('all');
+          applySortAndFilter();
+        });
+      }
+
+      // Initialize from URL query parameters or hash (e.g. /nodes?category=budget or /nodes?q=隐形人 or #flagship)
+      const params = new URLSearchParams(window.location.search);
+      const urlCat = params.get('category') || window.location.hash.replace('#', '');
+      const urlQ = params.get('q');
+      const focusParam = params.get('focus');
+
+      const validCats = Array.from(tabs).map(t => t.getAttribute('data-category'));
+      if (urlCat && validCats.includes(urlCat)) {
+        setActiveTab(urlCat);
+      }
+      if (urlQ && searchInput) {
+        currentKeyword = urlQ.trim();
+        searchInput.value = currentKeyword;
+      }
+      if (focusParam === 'search' && searchInput) {
+        setTimeout(() => searchInput.focus(), 120);
+      }
+      if (urlCat || urlQ) {
+        applySortAndFilter();
+      }
+    })();
+  </script>
+</BaseLayout>
